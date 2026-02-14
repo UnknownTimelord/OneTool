@@ -2,6 +2,7 @@ package net.tenth.one_tool;
 
 import net.fabricmc.api.ModInitializer;
 
+import net.tenth.one_tool.component.ModDataComponentTypes;
 import net.tenth.one_tool.item.ModItems;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,5 +14,6 @@ public class OneTool implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		ModItems.init();
+		ModDataComponentTypes.init();
 	}
 }

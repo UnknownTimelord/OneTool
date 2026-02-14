@@ -5,19 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d81e3204-dcca-47de-a83a-4e04912f7003" name="Changes" comment="First commit">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules/OneTool.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations/Data_Generation.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations/Minecraft_Client.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations/Minecraft_Server.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/assets/one_tool/icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/component/ModDataComponentTypes.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/types/OneToolTier.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/util/Constants.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/util/GetToolDataHelper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/util/MiscHelper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/util/UseOnBlockHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/OneTool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/OneTool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/item/ModItems.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/item/ModItems.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/item/custom/OneToolItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/item/custom/OneToolItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/one_tool/lang/en_us.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/assets/one_tool/lang/en_us.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
   </component>
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
@@ -58,6 +67,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Enum" />
         <option value="Class" />
       </list>
     </option>
@@ -65,22 +75,22 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "UnknownTimelord"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;UnknownTimelord&quot;
   }
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
     "url": "https://github.com/UnknownTimelord/OneTool.git",
-    "accountId": "818b644f-b976-478a-8a1a-4abce8e55626"
+    "accountId": "fe95d83e-c9a4-40f9-8f39-18124882a855"
   }
 }]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 2
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 2
+}</component>
   <component name="ProjectId" id="39bQrRUtN09kR8zLDkophBvqpjL" />
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
@@ -93,6 +103,7 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "master",
@@ -102,6 +113,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "editor.preferences.import",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -184,6 +196,7 @@
       <option name="presentableId" value="Default" />
       <updated>1770962489121</updated>
       <workItem from="1770962491202" duration="3363000" />
+      <workItem from="1771055505065" duration="18384000" />
     </task>
     <task id="LOCAL-00001" summary="First commit">
       <option name="closed" value="true" />

@@ -1,6 +1,9 @@
 {
   "screen.onetool.title": "-= The One Tool To Rule Them All =-",
-  "tooltip.item.custom.energy.tooltip": "Energy: %1$d/%2$d",
-  "tooltip.item.custom.fluid.tooltip": "%1$d mB/%2$d mB %3$d",
-  "item.one_tool.one_tool": "The One Tool"
+  "item.one_tool.one_tool": "The One Tool",
+  "one_tool.energy.tooltip": "Energy: ",
+  "one_tool.energy_value.tooltip": "%1$d/%2$d",
+  "one_tool.tier.tooltip": "Tier: ",
+  "one_tool.tier_value.tooltip": "%1$d",
+  "one_tool.empty.tooltip": "EMPTY!"
 }
