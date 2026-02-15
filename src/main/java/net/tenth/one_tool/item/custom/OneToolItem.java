@@ -1,5 +1,6 @@
 package net.tenth.one_tool.item.custom;
 
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.component.type.TooltipDisplayComponent;
@@ -7,25 +8,28 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Colors;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Util;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.tenth.one_tool.component.ModDataComponentTypes;
+import net.tenth.one_tool.inventory.OneToolInventory;
+import net.tenth.one_tool.screen.custom.OneToolScreenHandler;
 import net.tenth.one_tool.types.OneToolTier;
 import net.tenth.one_tool.util.GetToolDataHelper;
 import net.tenth.one_tool.util.MiscHelper;
 import net.tenth.one_tool.util.UseOnBlockHelper;
+import org.jspecify.annotations.NonNull;
 import oshi.util.tuples.Triplet;
 
 import java.util.function.Consumer;
@@ -36,7 +40,40 @@ public class OneToolItem extends Item {
         super(settings);
     }
 
-    // Does tool actions
+    @Override
+    public ActionResult use(World world, PlayerEntity user, Hand hand) {
+        if(world.isClient() || !(user.getMainHandStack().getItem() instanceof OneToolItem))
+            return ActionResult.PASS;
+
+        ItemStack tool = user.getMainHandStack();
+
+        if (tool.get(ModDataComponentTypes.ONE_TOOL_INV) == null) {
+            tool.set(
+                    ModDataComponentTypes.ONE_TOOL_INV,
+                    new OneToolInventory()
+            );
+        }
+
+        user.openHandledScreen(new ExtendedScreenHandlerFactory<ItemStack>() {
+            @Override
+            public @NonNull ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
+                return new OneToolScreenHandler(syncId, playerInventory, tool);
+            }
+
+            @Override
+            public Text getDisplayName() {
+                return Text.translatable("screen.onetool.title");
+            }
+
+            @Override
+            public ItemStack getScreenOpeningData(@NonNull ServerPlayerEntity serverPlayerEntity) {
+                return tool;
+            }
+        });
+
+        return ActionResult.SUCCESS;
+    }
+
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
         World world = context.getWorld();

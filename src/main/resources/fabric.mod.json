@@ -18,6 +18,9 @@
 		"main": [
 			"net.tenth.one_tool.OneTool"
 		],
+		"client": [
+			"net.tenth.one_tool.OneToolClient"
+		],
 		"fabric-datagen": [
 			"net.tenth.one_tool.OneToolDataGenerator"
 		]

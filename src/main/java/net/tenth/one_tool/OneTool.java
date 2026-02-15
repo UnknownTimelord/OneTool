@@ -4,6 +4,7 @@ import net.fabricmc.api.ModInitializer;
 
 import net.tenth.one_tool.component.ModDataComponentTypes;
 import net.tenth.one_tool.item.ModItems;
+import net.tenth.one_tool.screen.ModScreenHandlers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,5 +16,6 @@ public class OneTool implements ModInitializer {
 	public void onInitialize() {
 		ModItems.init();
 		ModDataComponentTypes.init();
+		ModScreenHandlers.init();
 	}
 }
