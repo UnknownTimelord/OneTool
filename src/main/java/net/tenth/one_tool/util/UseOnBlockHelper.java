@@ -24,6 +24,7 @@ import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldEvents;
 import net.minecraft.world.event.GameEvent;
+import net.tenth.one_tool.component.ModDataComponentTypes;
 import org.jetbrains.annotations.Nullable;
 import oshi.util.tuples.Triplet;
 
@@ -132,7 +133,18 @@ public class UseOnBlockHelper {
                     world.setBlockState(blockPos, blockState3, Block.NOTIFY_ALL_AND_REDRAW);
                     world.emitGameEvent(GameEvent.BLOCK_CHANGE, blockPos, GameEvent.Emitter.of(playerEntity, blockState3));
 
-                    // if (playerEntity != null && !playerEntity.isCreative()) OneToolItem.decrementEnergy(context.getStack());
+                    ItemStack itemStack =
+                            playerEntity != null
+                                    ? playerEntity.getMainHandStack()
+                                    : ItemStack.EMPTY;
+
+                    int energy = itemStack.getOrDefault(ModDataComponentTypes.ENERGY, 0);
+
+                    if (energy - 1 >= 0 && !playerEntity.isCreative()) {
+                        itemStack.set(ModDataComponentTypes.ENERGY, energy - 1);
+                    } else {
+                        return ActionResult.FAIL;
+                    }
                 }
 
                 return ActionResult.SUCCESS;
@@ -162,7 +174,18 @@ public class UseOnBlockHelper {
                     consumer.accept(context);
                 }
 
-                // if (playerEntity != null && !playerEntity.isCreative()) OneToolItem.decrementEnergy(context.getStack());
+                ItemStack itemStack =
+                        playerEntity != null
+                                ? playerEntity.getMainHandStack()
+                                : ItemStack.EMPTY;
+
+                int energy = itemStack.getOrDefault(ModDataComponentTypes.ENERGY, 0);
+
+                if (energy - 1 >= 0 && !playerEntity.isCreative()) {
+                    itemStack.set(ModDataComponentTypes.ENERGY, energy - 1);
+                } else {
+                    return ActionResult.FAIL;
+                }
                 return ActionResult.SUCCESS;
             } else {
                 return ActionResult.PASS;
@@ -190,7 +213,13 @@ public class UseOnBlockHelper {
 
                 world.setBlockState(blockPos, optional.get(), Block.NOTIFY_ALL_AND_REDRAW);
                 world.emitGameEvent(GameEvent.BLOCK_CHANGE, blockPos, GameEvent.Emitter.of(playerEntity, optional.get()));
-                // if (playerEntity != null && !playerEntity.isCreative()) OneToolItem.decrementEnergy(context.getStack());
+                int energy = itemStack.getOrDefault(ModDataComponentTypes.ENERGY, 0);
+
+                if (energy - 1 >= 0 && !playerEntity.isCreative()) {
+                    itemStack.set(ModDataComponentTypes.ENERGY, energy - 1);
+                } else {
+                    return ActionResult.FAIL;
+                }
 
                 return ActionResult.SUCCESS;
             }

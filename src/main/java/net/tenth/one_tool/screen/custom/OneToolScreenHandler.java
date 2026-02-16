@@ -7,6 +7,8 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.tenth.one_tool.component.ModDataComponentTypes;
 import net.tenth.one_tool.inventory.OneToolInventory;
+import net.tenth.one_tool.inventory.OneToolSlot;
+import net.tenth.one_tool.item.custom.OneToolItem;
 import net.tenth.one_tool.screen.ModScreenHandlers;
 import net.tenth.one_tool.util.Constants;
 
@@ -20,8 +22,8 @@ public class OneToolScreenHandler extends ScreenHandler {
         toolInventory = tool.getOrDefault(ModDataComponentTypes.ONE_TOOL_INV,
                 new OneToolInventory(Constants.BASE_INV_SIZE, List.of()));
 
-        int startX = 0;
-        int startY = 0;
+        int startX = 8;
+        int startY = 18;
         int spacing = 18;
 
         int rows = toolInventory.size() / 9;
@@ -29,12 +31,14 @@ public class OneToolScreenHandler extends ScreenHandler {
 
         for (int y = 0; y < rows; y++) {
             for (int x = 0; x < 9; x++) {
-                this.addSlot(new Slot(toolInventory, index++,
+                this.addSlot(new OneToolSlot(toolInventory, index++,
                         startX + x * spacing,
                         startY + y * spacing
                 ));
             }
         }
+
+        this.slots.set(0, ((OneToolSlot) this.slots.getFirst()).move(this.slots.getFirst().x + 10, this.slots.getFirst().y + 10));
 
         this.addPlayerInventorySlots(playerInventory, 8, 84);
         this.addPlayerHotbarSlots(playerInventory, 8, 142);
@@ -44,6 +48,10 @@ public class OneToolScreenHandler extends ScreenHandler {
     public ItemStack quickMove(PlayerEntity player, int slotIndex) {
         ItemStack original = ItemStack.EMPTY;
         Slot slot = this.slots.get(slotIndex);
+
+        if (slot.hasStack() && slot.getStack().getItem() instanceof OneToolItem) {
+            return original;
+        }
 
         if (slot != null && slot.hasStack()) {
             ItemStack stackInSlot = slot.getStack();

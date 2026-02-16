@@ -4,18 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d81e3204-dcca-47de-a83a-4e04912f7003" name="Changes" comment="Energy exists and drains, next is charging, inventory stuff, and more if I think of something">
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/OneToolClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/inventory/OneToolInventory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/screen/ModScreenHandlers.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/screen/custom/OneToolScreen.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/screen/custom/OneToolScreenHandler.java" afterDir="false" />
+    <list default="true" id="d81e3204-dcca-47de-a83a-4e04912f7003" name="Changes" comment="Inventory and screen stuff, WIP">
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/inventory/OneToolSlot.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/OneTool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/OneTool.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/component/ModDataComponentTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/component/ModDataComponentTypes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/inventory/OneToolInventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/inventory/OneToolInventory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/item/custom/OneToolItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/item/custom/OneToolItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/util/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/util/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fabric.mod.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fabric.mod.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/screen/custom/OneToolScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/screen/custom/OneToolScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/screen/custom/OneToolScreenHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/screen/custom/OneToolScreenHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/util/UseOnBlockHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/util/UseOnBlockHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/one_tool/lang/en_us.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/assets/one_tool/lang/en_us.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,28 +89,28 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.OneTool [runClient].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.OneTool [runDatagen].executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.import&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.Download Sources.executor": "Run",
+    "Gradle.OneTool [runClient].executor": "Run",
+    "Gradle.OneTool [runDatagen].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\amyst\OneDrive\Documents\OneTool\src\main\java\net\tenth\one_tool\datagen" />
@@ -194,7 +191,8 @@
       <updated>1770962489121</updated>
       <workItem from="1770962491202" duration="3363000" />
       <workItem from="1771055505065" duration="18758000" />
-      <workItem from="1771146131728" duration="8527000" />
+      <workItem from="1771146131728" duration="12148000" />
+      <workItem from="1771241842949" duration="4384000" />
     </task>
     <task id="LOCAL-00001" summary="First commit">
       <option name="closed" value="true" />
@@ -212,7 +210,15 @@
       <option name="project" value="LOCAL" />
       <updated>1771077673270</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Inventory and screen stuff, WIP">
+      <option name="closed" value="true" />
+      <created>1771160729899</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1771160729899</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -221,6 +227,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="First commit" />
     <MESSAGE value="Energy exists and drains, next is charging, inventory stuff, and more if I think of something" />
-    <option name="LAST_COMMIT_MESSAGE" value="Energy exists and drains, next is charging, inventory stuff, and more if I think of something" />
+    <MESSAGE value="Inventory and screen stuff, WIP" />
+    <option name="LAST_COMMIT_MESSAGE" value="Inventory and screen stuff, WIP" />
   </component>
 </project>

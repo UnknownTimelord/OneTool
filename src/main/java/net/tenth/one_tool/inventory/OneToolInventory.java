@@ -11,6 +11,7 @@ import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.util.collection.DefaultedList;
 import net.tenth.one_tool.item.custom.OneToolItem;
+import net.tenth.one_tool.types.OneToolTier;
 import net.tenth.one_tool.util.Constants;
 
 import java.util.ArrayList;
@@ -26,14 +27,20 @@ public class OneToolInventory implements Inventory {
         }
     }
 
-    public OneToolInventory() {
-        items = DefaultedList.ofSize(Constants.BASE_INV_SIZE, ItemStack.EMPTY);
+    public OneToolInventory(OneToolTier tier) {
+        int size = switch (tier) {
+            case BASE -> Constants.BASE_INV_SIZE;
+            case DOUBLE -> Constants.DOUBLE_INV_SIZE;
+            case TRIPLE -> Constants.TRIPLE_INV_SIZE;
+            default -> Constants.QUADRUPLE_INV_SIZE;
+        };
+        items = DefaultedList.ofSize(size, ItemStack.EMPTY);
     }
 
     public static final MapCodec<OneToolInventory> MAP_CODEC =
             RecordCodecBuilder.mapCodec(inst -> inst.group(
                     Codec.INT.fieldOf("size").forGetter(inv -> inv.items.size()),
-                    ItemStack.CODEC.listOf().fieldOf("items").forGetter(inv -> inv.items)
+                    ItemStack.OPTIONAL_CODEC.listOf().fieldOf("items").forGetter(inv -> inv.items)
             ).apply(inst, OneToolInventory::new));
 
     public static final Codec<OneToolInventory> CODEC = MAP_CODEC.codec();
@@ -43,15 +50,11 @@ public class OneToolInventory implements Inventory {
                     PacketCodecs.INTEGER,
                     inv -> Math.min(inv.items.size(), Constants.QUADRUPLE_INV_SIZE),
 
-                    PacketCodecs.collection(ArrayList::new, ItemStack.PACKET_CODEC, Constants.QUADRUPLE_INV_SIZE),
+                    PacketCodecs.collection(ArrayList::new, ItemStack.OPTIONAL_PACKET_CODEC, Constants.QUADRUPLE_INV_SIZE),
                     inv -> inv.items.subList(0, Math.min(inv.items.size(), Constants.QUADRUPLE_INV_SIZE)),
 
                     OneToolInventory::new
             );
-
-    private ItemStack[] getItems() {
-        return items.toArray(new ItemStack[0]);
-    }
 
     @Override
     public int size() {

@@ -50,7 +50,7 @@ public class OneToolItem extends Item {
         if (tool.get(ModDataComponentTypes.ONE_TOOL_INV) == null) {
             tool.set(
                     ModDataComponentTypes.ONE_TOOL_INV,
-                    new OneToolInventory()
+                    new OneToolInventory(tool.getOrDefault(ModDataComponentTypes.ONE_TOOL_TIER, OneToolTier.BASE))
             );
         }
 
@@ -94,14 +94,6 @@ public class OneToolItem extends Item {
         }
 
         BlockState aBlockState = world.getBlockState(aBlock);
-
-        int energy = itemStack.getOrDefault(ModDataComponentTypes.ENERGY, 0);
-
-        if (energy - 1 >= 0) {
-            itemStack.set(ModDataComponentTypes.ENERGY, energy - 1);
-        } else {
-            return ActionResult.FAIL;
-        }
 
         if (aBlockState.isIn(BlockTags.LOGS)) return UseOnBlockHelper.axeUseOnBlock(context);
         else if (aBlockState.isIn(BlockTags.DIRT)
