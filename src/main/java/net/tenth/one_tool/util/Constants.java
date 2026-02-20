@@ -3,6 +3,7 @@ package net.tenth.one_tool.util;
 import net.tenth.one_tool.types.OneToolTier;
 
 import java.util.Map;
+import java.util.Random;
 
 public class Constants {
     public static final float BASE_ATK_DAMAGE = 6.0F;
@@ -22,4 +23,5 @@ public class Constants {
             OneToolTier.TRIPLE, TRIPLE_ENERGY,
             OneToolTier.QUADRUPLE, QUADRUPLE_ENERGY
     );
+    public static final Random RANDOM = new Random();
 }

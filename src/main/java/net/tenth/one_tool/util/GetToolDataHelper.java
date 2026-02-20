@@ -9,6 +9,9 @@ public class GetToolDataHelper {
     public static OneToolTier getToolTier(ItemStack tool) {
         return tool.getOrDefault(ModDataComponentTypes.ONE_TOOL_TIER, OneToolTier.BASE);
     }
+    public static OneToolTier getPreviousTier(ItemStack tool) {
+        return tool.getOrDefault(ModDataComponentTypes.ONE_TOOL_TIER, OneToolTier.BASE).getPrevious();
+    }
     public static int getMaxEnergy(ItemStack tool) {
         OneToolTier tier = getToolTier(tool);
         return tier == OneToolTier.BASE

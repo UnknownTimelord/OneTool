@@ -6,15 +6,13 @@ import net.minecraft.screen.slot.Slot;
 import net.tenth.one_tool.item.custom.OneToolItem;
 
 public class OneToolSlot extends Slot {
-    private int index;
 
     public OneToolSlot(Inventory inventory, int index, int x, int y) {
         super(inventory, index, x, y);
-        this.index = index;
     }
 
     public OneToolSlot move(int x, int y) {
-        return new OneToolSlot(inventory, index, x, y);
+        return new OneToolSlot(this.inventory, this.getIndex(), x, y);
     }
 
     @Override

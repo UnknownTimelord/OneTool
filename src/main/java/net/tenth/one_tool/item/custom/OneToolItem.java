@@ -3,6 +3,8 @@ package net.tenth.one_tool.item.custom;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.ConsumableComponent;
 import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -26,6 +28,7 @@ import net.tenth.one_tool.component.ModDataComponentTypes;
 import net.tenth.one_tool.inventory.OneToolInventory;
 import net.tenth.one_tool.screen.custom.OneToolScreenHandler;
 import net.tenth.one_tool.types.OneToolTier;
+import net.tenth.one_tool.util.Constants;
 import net.tenth.one_tool.util.GetToolDataHelper;
 import net.tenth.one_tool.util.MiscHelper;
 import net.tenth.one_tool.util.UseOnBlockHelper;
@@ -46,6 +49,13 @@ public class OneToolItem extends Item {
             return ActionResult.PASS;
 
         ItemStack tool = user.getMainHandStack();
+
+        if (user.isSneaking()) {
+            ConsumableComponent consumableComponent = tool.get(DataComponentTypes.CONSUMABLE);
+            if (consumableComponent != null) {
+                return consumableComponent.consume(user, tool.copy(), hand);
+            }
+        }
 
         if (tool.get(ModDataComponentTypes.ONE_TOOL_INV) == null) {
             tool.set(
@@ -72,6 +82,20 @@ public class OneToolItem extends Item {
         });
 
         return ActionResult.SUCCESS;
+    }
+
+    @Override
+    public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
+        ConsumableComponent cc = stack.get(DataComponentTypes.CONSUMABLE);
+        if (cc != null) {
+            cc.finishConsumption(world, user, stack.copy());
+            int energy = stack.getOrDefault(ModDataComponentTypes.ENERGY, 0);
+
+            if (energy - 1 >= 0) {
+                decrement_energy(stack, energy);
+            }
+        }
+        return stack.copy();
     }
 
     @Override
@@ -108,10 +132,26 @@ public class OneToolItem extends Item {
         int energy = stack.getOrDefault(ModDataComponentTypes.ENERGY, 0);
 
         if (energy - 1 >= 0) {
-            stack.set(ModDataComponentTypes.ENERGY, energy - 1);
+            decrement_energy(stack, energy);
         }
 
         return super.postMine(stack, world, state, pos, miner);
+    }
+
+    private static void decrement_energy(ItemStack stack, int energy) {
+        int tier = GetToolDataHelper.getToolTier(stack).asInt(); // 1..4
+
+        float consumeChance = switch (tier) {
+            case 1 -> 0.10f;
+            case 2 -> 0.20f;
+            case 3 -> 0.30f;
+            case 4 -> 0.40f;
+            default -> 1.0f;
+        };
+
+        if (Constants.RANDOM.nextFloat() >= consumeChance) {
+            stack.set(ModDataComponentTypes.ENERGY, energy - 1);
+        }
     }
 
     @Override
@@ -120,7 +160,7 @@ public class OneToolItem extends Item {
         int energy = stack.getOrDefault(ModDataComponentTypes.ENERGY, 0);
 
         if (energy - 1 >= 0) {
-            stack.set(ModDataComponentTypes.ENERGY, energy - 1);
+            decrement_energy(stack, energy);
             super.postHit(stack, target, attacker);
         }
 
@@ -142,7 +182,7 @@ public class OneToolItem extends Item {
         int energy = stack.getOrDefault(ModDataComponentTypes.ENERGY, 0);
 
         if (energy > 0) {
-            return baseSpeed;
+            return baseSpeed * GetToolDataHelper.getToolTier(stack).asInt() * GetToolDataHelper.getPreviousTier(stack).asInt();
         }
 
         return !state.isIn(BlockTags.DIRT) ? baseSpeed * 0.1F : baseSpeed * 0.5F;
@@ -175,5 +215,8 @@ public class OneToolItem extends Item {
         }
         textConsumer.accept(Text.translatable("one_tool.tier.tooltip")
                 .append(Text.translatable("one_tool.tier_value.tooltip", tier.asInt())));
+
+        // TO-DO: add some kind of player stat (bool) like "hasn't eaten one tool" etc
+        textConsumer.accept(Text.translatable("one_tool.lore.tooltip").formatted(Formatting.GOLD));
     }
 }

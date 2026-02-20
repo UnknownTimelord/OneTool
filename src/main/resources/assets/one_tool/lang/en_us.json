@@ -5,5 +5,6 @@
   "one_tool.energy_value.tooltip": "%1$d/%2$d",
   "one_tool.tier.tooltip": "Tier: ",
   "one_tool.tier_value.tooltip": "%1$d",
-  "one_tool.empty.tooltip": "EMPTY!"
+  "one_tool.empty.tooltip": "EMPTY!",
+  "one_tool.lore.tooltip": "Oooh, shiny! I wonder what it tastes like..."
 }

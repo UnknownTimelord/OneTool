@@ -23,6 +23,16 @@ public enum OneToolTier implements StringIdentifiable {
         return id;
     }
 
+    public String asRoman() {
+        return switch (id) {
+            case "base" -> "I";
+            case "double" -> "II";
+            case "triple" -> "III";
+            case "quadruple" -> "IV";
+            default -> "X";
+        };
+    }
+
     public int asInt() {
         return switch(id) {
             case "base" -> 1;
@@ -30,6 +40,14 @@ public enum OneToolTier implements StringIdentifiable {
             case "triple" -> 3;
             case "quadruple" -> 4;
             default -> 0;
+        };
+    }
+
+    public OneToolTier getPrevious() {
+        return switch (id) {
+            case "triple" -> DOUBLE;
+            case "quadruple" -> TRIPLE;
+            default -> BASE;
         };
     }
 }

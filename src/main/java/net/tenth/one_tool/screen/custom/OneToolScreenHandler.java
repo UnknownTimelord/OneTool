@@ -26,22 +26,56 @@ public class OneToolScreenHandler extends ScreenHandler {
         int startY = 18;
         int spacing = 18;
 
-        int rows = toolInventory.size() / 9;
-        int index = 0;
+        int totalSlots = toolInventory.size();
 
+        int cols;
+        int rows;
+
+        switch (totalSlots) {
+            case 27 -> { cols = 9;  rows = 3; }
+            case 54 -> { cols = 9;  rows = 6; }
+            case 81 -> { cols = 9;  rows = 9; }
+            case 108 -> { cols = 18; rows = 6; }
+            default -> throw new IllegalStateException("Unsupported tool inventory size: " + totalSlots);
+        }
+
+        int index = 0;
         for (int y = 0; y < rows; y++) {
-            for (int x = 0; x < 9; x++) {
-                this.addSlot(new OneToolSlot(toolInventory, index++,
+            for (int x = 0; x < cols; x++) {
+                if (index >= totalSlots) break;
+
+                this.addSlot(new OneToolSlot(
+                        toolInventory,
+                        index++,
                         startX + x * spacing,
                         startY + y * spacing
                 ));
             }
         }
 
-        this.slots.set(0, ((OneToolSlot) this.slots.getFirst()).move(this.slots.getFirst().x + 10, this.slots.getFirst().y + 10));
+        int inv_y
+                = totalSlots == Constants.DOUBLE_INV_SIZE
+                ? 140
+                : totalSlots == Constants.TRIPLE_INV_SIZE
+                ? 194
+                : totalSlots == Constants.QUADRUPLE_INV_SIZE
+                ? 140
+                : 84;
+        int hotbar_y
+                = totalSlots == Constants.DOUBLE_INV_SIZE
+                ? 198
+                : totalSlots == Constants.TRIPLE_INV_SIZE
+                ? 252
+                : totalSlots == Constants.QUADRUPLE_INV_SIZE
+                ? 198
+                : 142;
+        int x
+                = totalSlots != Constants.QUADRUPLE_INV_SIZE
+                ? 8
+                : 90;
 
-        this.addPlayerInventorySlots(playerInventory, 8, 84);
-        this.addPlayerHotbarSlots(playerInventory, 8, 142);
+        this.addPlayerInventorySlots(playerInventory, x, inv_y);
+        this.addPlayerHotbarSlots(playerInventory, x, hotbar_y);
     }
 
     @Override
