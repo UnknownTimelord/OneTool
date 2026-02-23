@@ -50,4 +50,12 @@ public enum OneToolTier implements StringIdentifiable {
             default -> BASE;
         };
     }
+    public OneToolTier getNext() {
+        return switch (this) {
+            case BASE -> DOUBLE;
+            case DOUBLE -> TRIPLE;
+            case TRIPLE -> QUADRUPLE;
+            case QUADRUPLE -> QUADRUPLE; // clamp at max tier
+        };
+    }
 }

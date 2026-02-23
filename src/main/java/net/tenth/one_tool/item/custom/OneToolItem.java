@@ -55,11 +55,17 @@ public class OneToolItem extends Item {
             }
         }
 
-        if (tool.get(ModDataComponentTypes.ONE_TOOL_INV) == null) {
+        OneToolInventory inventory = tool.get(ModDataComponentTypes.ONE_TOOL_INV);
+
+        if (inventory == null) {
             tool.set(
                     ModDataComponentTypes.ONE_TOOL_INV,
                     new OneToolInventory(tool.getOrDefault(ModDataComponentTypes.ONE_TOOL_TIER, OneToolTier.BASE))
             );
+        }
+        if (inventory != null && inventory.size() < GetToolDataHelper.getMaxInvSize(tool)) {
+            OneToolInventory newInv = new OneToolInventory(GetToolDataHelper.getMaxInvSize(tool), inventory.items);
+            tool.set(ModDataComponentTypes.ONE_TOOL_INV, newInv);
         }
 
         player.openHandledScreen(new ExtendedScreenHandlerFactory<ItemStack>() {

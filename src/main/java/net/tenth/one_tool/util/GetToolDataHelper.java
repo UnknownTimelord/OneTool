@@ -54,4 +54,13 @@ public class GetToolDataHelper {
         }
         return color;
     }
+
+    public static int getMaxInvSize(ItemStack tool) {
+        return switch (getToolTier(tool)) {
+            case BASE -> Constants.BASE_INV_SIZE;
+            case DOUBLE -> Constants.DOUBLE_INV_SIZE;
+            case TRIPLE -> Constants.TRIPLE_INV_SIZE;
+            case QUADRUPLE -> Constants.QUADRUPLE_INV_SIZE;
+        };
+    }
 }
