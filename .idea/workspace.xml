@@ -4,17 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d81e3204-dcca-47de-a83a-4e04912f7003" name="Changes" comment="Inventory and screen stuff, WIP">
+    <list default="true" id="d81e3204-dcca-47de-a83a-4e04912f7003" name="Changes" comment="More inventory stuff, now eating the tool fills ur hunger and takes the same amount in energy">
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/inventory/OneToolChargeSlot.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/assets/one_tool/textures/gui/container/base_inv.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/assets/one_tool/textures/gui/container/double_inv.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/OneToolClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/OneToolClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/component/ModDataComponentTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/component/ModDataComponentTypes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/inventory/OneToolSlot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/inventory/OneToolSlot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/item/custom/OneToolItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/item/custom/OneToolItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/mixin/DrawContextMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/mixin/DrawContextMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/screen/custom/OneToolScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/screen/custom/OneToolScreen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/screen/custom/OneToolScreenHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/screen/custom/OneToolScreenHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/util/GetToolDataHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/util/GetToolDataHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/util/MiscHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/util/MiscHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/one_tool/lang/en_us.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/assets/one_tool/lang/en_us.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/util/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/util/Constants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/assets/one_tool/textures/gui/container/quad_inv.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/assets/one_tool/textures/gui/container/quad_inv.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/assets/one_tool/textures/gui/container/triple_inv.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/assets/one_tool/textures/gui/container/triple_inv.png" afterDir="false" />
     </list>
@@ -223,7 +221,15 @@
       <option name="project" value="LOCAL" />
       <updated>1771160729899</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="More inventory stuff, now eating the tool fills ur hunger and takes the same amount in energy">
+      <option name="closed" value="true" />
+      <created>1771852032169</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1771852032169</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -233,6 +239,7 @@
     <MESSAGE value="First commit" />
     <MESSAGE value="Energy exists and drains, next is charging, inventory stuff, and more if I think of something" />
     <MESSAGE value="Inventory and screen stuff, WIP" />
-    <option name="LAST_COMMIT_MESSAGE" value="Inventory and screen stuff, WIP" />
+    <MESSAGE value="More inventory stuff, now eating the tool fills ur hunger and takes the same amount in energy" />
+    <option name="LAST_COMMIT_MESSAGE" value="More inventory stuff, now eating the tool fills ur hunger and takes the same amount in energy" />
   </component>
 </project>

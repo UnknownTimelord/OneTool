@@ -13,7 +13,7 @@ public class Constants {
     public static final int DOUBLE_ENERGY = BASE_ENERGY * 2;
     public static final int TRIPLE_ENERGY = BASE_ENERGY * 3;
     public static final int QUADRUPLE_ENERGY = BASE_ENERGY * 4;
-    public static final int BASE_INV_SIZE = 27;
+    public static final int BASE_INV_SIZE = 18;
     public static final int DOUBLE_INV_SIZE = BASE_INV_SIZE * 2;
     public static final int TRIPLE_INV_SIZE = BASE_INV_SIZE * 3;
     public static final int QUADRUPLE_INV_SIZE = BASE_INV_SIZE * 4;

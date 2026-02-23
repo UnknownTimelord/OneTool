@@ -2,10 +2,12 @@ package net.tenth.one_tool.screen.custom;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.tenth.one_tool.component.ModDataComponentTypes;
+import net.tenth.one_tool.inventory.OneToolChargeSlot;
 import net.tenth.one_tool.inventory.OneToolInventory;
 import net.tenth.one_tool.inventory.OneToolSlot;
 import net.tenth.one_tool.item.custom.OneToolItem;
@@ -23,7 +25,7 @@ public class OneToolScreenHandler extends ScreenHandler {
                 new OneToolInventory(Constants.BASE_INV_SIZE, List.of()));
 
         int startX = 8;
-        int startY = 18;
+        int startY = 8;
         int spacing = 18;
 
         int totalSlots = toolInventory.size();
@@ -32,10 +34,10 @@ public class OneToolScreenHandler extends ScreenHandler {
         int rows;
 
         switch (totalSlots) {
-            case 27 -> { cols = 9;  rows = 3; }
-            case 54 -> { cols = 9;  rows = 6; }
-            case 81 -> { cols = 9;  rows = 9; }
-            case 108 -> { cols = 18; rows = 6; }
+            case Constants.BASE_INV_SIZE -> { cols = 9;  rows = 2; }
+            case Constants.DOUBLE_INV_SIZE -> { cols = 9;  rows = 4; }
+            case Constants.TRIPLE_INV_SIZE -> { cols = 9;  rows = 8; }
+            case Constants.QUADRUPLE_INV_SIZE -> { cols = 18; rows = 8; }
             default -> throw new IllegalStateException("Unsupported tool inventory size: " + totalSlots);
         }
 
@@ -45,7 +47,6 @@ public class OneToolScreenHandler extends ScreenHandler {
                 if (index >= totalSlots) break;
 
                 this.addSlot(new OneToolSlot(
-                        tool,
                         toolInventory,
                         index++,
                         startX + x * spacing,
@@ -63,31 +64,32 @@ public class OneToolScreenHandler extends ScreenHandler {
 
         int charge_y
                 = totalSlots == Constants.DOUBLE_INV_SIZE
-                ? 132
+                ? 82
                 : totalSlots == Constants.TRIPLE_INV_SIZE
-                ? 186
+                ? 118
                 : totalSlots == Constants.QUADRUPLE_INV_SIZE
-                ? 132
-                : 78;
+                ? 86
+                : 50;
 
-        // add slot here
+        SimpleInventory charge_inv = new SimpleInventory(1);
+        addSlot(new OneToolChargeSlot(tool, charge_inv, 0, charge_x, charge_y));
 
         int inv_y
                 = totalSlots == Constants.DOUBLE_INV_SIZE
-                ? 158
+                ? 102
                 : totalSlots == Constants.TRIPLE_INV_SIZE
-                ? 212
+                ? 138
                 : totalSlots == Constants.QUADRUPLE_INV_SIZE
-                ? 158
-                : 102;
+                ? 110
+                : 74;
         int hotbar_y
                 = totalSlots == Constants.DOUBLE_INV_SIZE
-                ? 216
+                ? 160
                 : totalSlots == Constants.TRIPLE_INV_SIZE
-                ? 270
+                ? 196
                 : totalSlots == Constants.QUADRUPLE_INV_SIZE
-                ? 216
-                : 160;
+                ? 168
+                : 132;
         int x
                 = totalSlots != Constants.QUADRUPLE_INV_SIZE
                 ? 8
