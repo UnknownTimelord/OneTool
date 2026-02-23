@@ -5,7 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.ConsumableComponent;
-import net.minecraft.component.type.TooltipDisplayComponent;
+import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -15,12 +15,12 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
-import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -35,8 +35,6 @@ import net.tenth.one_tool.util.UseOnBlockHelper;
 import org.jspecify.annotations.NonNull;
 import oshi.util.tuples.Triplet;
 
-import java.util.function.Consumer;
-
 public class OneToolItem extends Item {
 
     public OneToolItem(Settings settings) {
@@ -44,16 +42,16 @@ public class OneToolItem extends Item {
     }
 
     @Override
-    public ActionResult use(World world, PlayerEntity user, Hand hand) {
-        if(world.isClient() || !(user.getMainHandStack().getItem() instanceof OneToolItem))
+    public ActionResult use(World world, PlayerEntity player, Hand hand) {
+        if(world.isClient() || !(player.getMainHandStack().getItem() instanceof OneToolItem))
             return ActionResult.PASS;
 
-        ItemStack tool = user.getMainHandStack();
+        ItemStack tool = player.getMainHandStack();
 
-        if (user.isSneaking()) {
+        if (player.isSneaking() && player.getHungerManager().isNotFull() && GetToolDataHelper.hasEnergy(tool)) {
             ConsumableComponent consumableComponent = tool.get(DataComponentTypes.CONSUMABLE);
             if (consumableComponent != null) {
-                return consumableComponent.consume(user, tool.copy(), hand);
+                return consumableComponent.consume(player, tool.copy(), hand);
             }
         }
 
@@ -64,7 +62,7 @@ public class OneToolItem extends Item {
             );
         }
 
-        user.openHandledScreen(new ExtendedScreenHandlerFactory<ItemStack>() {
+        player.openHandledScreen(new ExtendedScreenHandlerFactory<ItemStack>() {
             @Override
             public @NonNull ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
                 return new OneToolScreenHandler(syncId, playerInventory, tool);
@@ -85,35 +83,25 @@ public class OneToolItem extends Item {
     }
 
     @Override
-    public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        ConsumableComponent cc = stack.get(DataComponentTypes.CONSUMABLE);
-        if (cc != null) {
-            cc.finishConsumption(world, user, stack.copy());
-            int energy = stack.getOrDefault(ModDataComponentTypes.ENERGY, 0);
-
-            if (energy - 1 >= 0) {
-                decrement_energy(stack, energy);
-            }
-        }
-        return stack.copy();
-    }
-
-    @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
         World world = context.getWorld();
-        PlayerEntity user = context.getPlayer();
-        ItemStack itemStack =
-                user != null
-                ? user.getMainHandStack()
-                : ItemStack.EMPTY;
+        PlayerEntity player = context.getPlayer();
+        ItemStack tool =
+                player != null
+                        ? player.getMainHandStack()
+                        : ItemStack.EMPTY;
 
-        Triplet<Boolean, BlockPos, Direction> raycast = UseOnBlockHelper.simpleRaycast(world, user, Fluids.EMPTY);
+        if (!GetToolDataHelper.hasEnergy(tool)) return ActionResult.FAIL;
+
+        if (player == null || player.isSneaking() || tool == ItemStack.EMPTY || player.getHungerManager().isNotFull()) return ActionResult.PASS;
+
+        Triplet<Boolean, BlockPos, Direction> raycast = UseOnBlockHelper.simpleRaycast(world, player, Fluids.EMPTY);
         if (raycast.getA()) return ActionResult.PASS;
 
         BlockPos aBlock = raycast.getB();
         Direction clickedFaceDirection = raycast.getC();
         BlockPos bBlock = aBlock.offset(clickedFaceDirection);
-        if (!world.canEntityModifyAt(user, aBlock) || !user.canPlaceOn(bBlock, clickedFaceDirection, itemStack)) {
+        if (!world.canEntityModifyAt(player, aBlock) || !player.canPlaceOn(bBlock, clickedFaceDirection, tool)) {
             return ActionResult.FAIL;
         }
 
@@ -128,18 +116,39 @@ public class OneToolItem extends Item {
     }
 
     @Override
-    public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
-        int energy = stack.getOrDefault(ModDataComponentTypes.ENERGY, 0);
+    public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
+        ConsumableComponent cc = stack.get(DataComponentTypes.CONSUMABLE);
+        if (cc != null && user instanceof PlayerEntity player) {
+            int toFill = MiscHelper.getMissingHunger(player);
+            stack.set(DataComponentTypes.FOOD, new FoodComponent(toFill, (float) toFill / 2, false));
+            cc.finishConsumption(world, user, stack.copy());
 
-        if (energy - 1 >= 0) {
-            decrement_energy(stack, energy);
+            player.setComponent(ModDataComponentTypes.HAS_EATEN_ONE_TOOL, true);
+
+            decrementEnergy(stack, toFill);
+            stack.set(DataComponentTypes.FOOD, new FoodComponent(0, 0, false));
         }
+        return stack.copy();
+    }
 
+    @Override
+    public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
+        decrementEnergy(stack, 1);
         return super.postMine(stack, world, state, pos, miner);
     }
 
-    private static void decrement_energy(ItemStack stack, int energy) {
-        int tier = GetToolDataHelper.getToolTier(stack).asInt(); // 1..4
+    @Override
+    public void postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        if (decrementEnergy(stack, 1)) {
+            super.postHit(stack, target, attacker);
+        }
+    }
+
+    private static boolean decrementEnergy(ItemStack stack, int amount) {
+        int tier = GetToolDataHelper.getToolTier(stack).asInt();
+        int energy = stack.getOrDefault(ModDataComponentTypes.ENERGY, 0);
+
+        if ((energy -= amount) < 0) return false;
 
         float consumeChance = switch (tier) {
             case 1 -> 0.10f;
@@ -150,20 +159,10 @@ public class OneToolItem extends Item {
         };
 
         if (Constants.RANDOM.nextFloat() >= consumeChance) {
-            stack.set(ModDataComponentTypes.ENERGY, energy - 1);
+            stack.set(ModDataComponentTypes.ENERGY, energy);
+            return true;
         }
-    }
-
-    @Override
-    public void postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-
-        int energy = stack.getOrDefault(ModDataComponentTypes.ENERGY, 0);
-
-        if (energy - 1 >= 0) {
-            decrement_energy(stack, energy);
-            super.postHit(stack, target, attacker);
-        }
-
+        return false;
     }
 
     @Override
@@ -186,37 +185,5 @@ public class OneToolItem extends Item {
         }
 
         return !state.isIn(BlockTags.DIRT) ? baseSpeed * 0.1F : baseSpeed * 0.5F;
-    }
-
-    @Override
-    public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type) {
-        int maxEnergy = GetToolDataHelper.getMaxEnergy(stack);
-        int energy = GetToolDataHelper.getEnergy(stack);
-        OneToolTier tier = GetToolDataHelper.getToolTier(stack);
-
-        if (energy != 0) {
-            textConsumer.accept(Text.translatable("one_tool.energy.tooltip")
-                    .append(Text.translatable("one_tool.energy_value.tooltip", energy, maxEnergy)));
-        }
-        if (energy == 0) {
-            long ms = Util.getMeasuringTimeMs();
-            float t = (ms % 1200L) / 1200f;
-            float pulse = 2F * (float) Math.sin(t * Math.PI);
-
-            int color = MiscHelper.interpolateColor(Colors.BLACK, Colors.RED, pulse);
-
-            textConsumer.accept(Text.translatable("one_tool.energy.tooltip")
-                    .append(Text.translatable("one_tool.empty.tooltip")
-                            .withColor(color)
-                            .formatted(Formatting.BOLD)
-                    )
-            );
-
-        }
-        textConsumer.accept(Text.translatable("one_tool.tier.tooltip")
-                .append(Text.translatable("one_tool.tier_value.tooltip", tier.asInt())));
-
-        // TO-DO: add some kind of player stat (bool) like "hasn't eaten one tool" etc
-        textConsumer.accept(Text.translatable("one_tool.lore.tooltip").formatted(Formatting.GOLD));
     }
 }

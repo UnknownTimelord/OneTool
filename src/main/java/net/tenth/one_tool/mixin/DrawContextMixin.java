@@ -5,7 +5,6 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Colors;
-import net.minecraft.util.Util;
 import net.tenth.one_tool.item.custom.OneToolItem;
 import net.tenth.one_tool.util.GetToolDataHelper;
 import net.tenth.one_tool.util.MiscHelper;
@@ -23,7 +22,7 @@ public abstract class DrawContextMixin {
                     target = "Lnet/minecraft/client/gui/DrawContext;drawItemBar(Lnet/minecraft/item/ItemStack;II)V"
             )
     )
-    private void energetic_tools$skipBarForCustom(DrawContext self, ItemStack stack, int x, int y) {
+    private void energyPercentage(DrawContext self, ItemStack stack, int x, int y) {
         if (!(stack.getItem() instanceof OneToolItem)) {
             MiscHelper.drawItemBar(self, stack, x, y);
         }
@@ -39,18 +38,8 @@ public abstract class DrawContextMixin {
             int localY = Math.round(9f  / SCALE);
             localY += 6;
             var ms  = self.getMatrices();
-            int startColor;
-            startColor = Colors.GREEN;
-            int color = MiscHelper.interpolateColor(startColor, 0xFFFFFF55, 0xFFFF5555, pct);
 
-            long mis = Util.getMeasuringTimeMs();
-            float t = (mis % 1200L) / 1200f;
-            float pulse = 2F * (float) Math.sin(t * Math.PI);
-            int pulse_color = MiscHelper.interpolateColor(Colors.BLACK, color, pulse);
-
-            if (GetToolDataHelper.getEnergy(stack) == 0) {
-                color = pulse_color;
-            }
+            int color = GetToolDataHelper.getEnergyColor(stack, pct);
 
             ms.pushMatrix();
             ms.translate(x, y);

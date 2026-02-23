@@ -1,6 +1,8 @@
 package net.tenth.one_tool.util;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Colors;
+import net.minecraft.util.Util;
 import net.tenth.one_tool.component.ModDataComponentTypes;
 import net.tenth.one_tool.item.ModItems;
 import net.tenth.one_tool.types.OneToolTier;
@@ -34,5 +36,22 @@ public class GetToolDataHelper {
 
         tool.set(ModDataComponentTypes.ENERGY, clampedEnergy);
         return tool;
+    }
+    public static boolean hasEnergy(ItemStack stack) {
+        return getEnergy(stack) > 0;
+    }
+    public static int getEnergyColor(ItemStack stack, int pct) {
+        int startColor = Colors.GREEN;
+        int color = MiscHelper.interpolateColor(startColor, 0xFFFFFF55, 0xFFFF5555, pct);
+
+        long mis = Util.getMeasuringTimeMs();
+        float t = (mis % 1200L) / 1200f;
+        float pulse = 2F * (float) Math.sin(t * Math.PI);
+        int pulse_color = MiscHelper.interpolateColor(Colors.BLACK, color, pulse);
+
+        if (GetToolDataHelper.getEnergy(stack) == 0) {
+            color = pulse_color;
+        }
+        return color;
     }
 }

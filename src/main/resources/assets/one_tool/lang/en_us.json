@@ -3,8 +3,9 @@
   "item.one_tool.one_tool": "The One Tool",
   "one_tool.energy.tooltip": "Energy: ",
   "one_tool.energy_value.tooltip": "%1$d/%2$d",
-  "one_tool.tier.tooltip": "Tier: ",
+  "one_tool.tier.tooltip": "Tier ",
   "one_tool.tier_value.tooltip": "%1$d",
   "one_tool.empty.tooltip": "EMPTY!",
-  "one_tool.lore.tooltip": "Oooh, shiny! I wonder what it tastes like..."
+  "one_tool.hasnt_eaten.tooltip": "When eaten, this tool restores hunger\nat a 1:1 energy-to-missing-hunger ratio!",
+  "one_tool.has_eaten.tooltip": "Yummy!"
 }

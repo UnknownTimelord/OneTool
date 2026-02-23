@@ -45,6 +45,7 @@ public class OneToolScreenHandler extends ScreenHandler {
                 if (index >= totalSlots) break;
 
                 this.addSlot(new OneToolSlot(
+                        tool,
                         toolInventory,
                         index++,
                         startX + x * spacing,
@@ -53,22 +54,40 @@ public class OneToolScreenHandler extends ScreenHandler {
             }
         }
 
+        int charge_x
+                = totalSlots == Constants.DOUBLE_INV_SIZE
+                ? 80
+                : totalSlots == Constants.QUADRUPLE_INV_SIZE
+                ? 162
+                : 80;
+
+        int charge_y
+                = totalSlots == Constants.DOUBLE_INV_SIZE
+                ? 132
+                : totalSlots == Constants.TRIPLE_INV_SIZE
+                ? 186
+                : totalSlots == Constants.QUADRUPLE_INV_SIZE
+                ? 132
+                : 78;
+
+        // add slot here
+
         int inv_y
                 = totalSlots == Constants.DOUBLE_INV_SIZE
-                ? 140
+                ? 158
                 : totalSlots == Constants.TRIPLE_INV_SIZE
-                ? 194
+                ? 212
                 : totalSlots == Constants.QUADRUPLE_INV_SIZE
-                ? 140
-                : 84;
+                ? 158
+                : 102;
         int hotbar_y
                 = totalSlots == Constants.DOUBLE_INV_SIZE
-                ? 198
+                ? 216
                 : totalSlots == Constants.TRIPLE_INV_SIZE
-                ? 252
+                ? 270
                 : totalSlots == Constants.QUADRUPLE_INV_SIZE
-                ? 198
-                : 142;
+                ? 216
+                : 160;
         int x
                 = totalSlots != Constants.QUADRUPLE_INV_SIZE
                 ? 8
@@ -98,17 +117,14 @@ public class OneToolScreenHandler extends ScreenHandler {
             int hotbarEnd = hotbarStart + 9;
 
             if (slotIndex < toolInvSize) {
-                // Tool -> player (prefer main, then hotbar)
                 if (!this.insertItem(stackInSlot, playerInvStart, hotbarEnd, true)) {
                     return ItemStack.EMPTY;
                 }
             } else if (slotIndex < hotbarStart) {
-                // Player main -> tool
                 if (!this.insertItem(stackInSlot, 0, toolInvSize, false)) {
                     return ItemStack.EMPTY;
                 }
             } else {
-                // Hotbar -> tool
                 if (!this.insertItem(stackInSlot, 0, toolInvSize, false)) {
                     return ItemStack.EMPTY;
                 }

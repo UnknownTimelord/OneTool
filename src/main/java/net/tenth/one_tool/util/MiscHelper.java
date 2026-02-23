@@ -5,11 +5,17 @@ import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.render.state.ColoredQuadGuiElementRenderState;
 import net.minecraft.client.texture.TextureSetup;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.ColorHelper;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix3x2f;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MiscHelper {
     public static int interpolateColor(int startColor, int midColor, int endColor, float percent) {
@@ -110,5 +116,19 @@ public class MiscHelper {
         int curr = Math.max(0, Math.min(max, GetToolDataHelper.getEnergy(stack)));
 
         return Math.round(curr * 100f / max);
+    }
+
+    public static int getMissingHunger(PlayerEntity player) {
+        return 20 - player.getHungerManager().getFoodLevel();
+    }
+
+    public static List<Text> splitOnNewlines(Text text, Formatting formatting) {
+        String s = text.getString();
+        String[] parts = s.split("\n");
+        List<Text> out = new ArrayList<>();
+        for (String part : parts) {
+            out.add(Text.literal(part).formatted(formatting));
+        }
+        return out;
     }
 }
