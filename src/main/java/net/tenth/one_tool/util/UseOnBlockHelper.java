@@ -25,6 +25,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldEvents;
 import net.minecraft.world.event.GameEvent;
 import net.tenth.one_tool.component.ModDataComponentTypes;
+import net.tenth.one_tool.types.OneToolTier;
 import org.jetbrains.annotations.Nullable;
 import oshi.util.tuples.Triplet;
 
@@ -142,6 +143,20 @@ public class UseOnBlockHelper {
 
                     if (energy - 1 >= 0 && !playerEntity.isCreative()) {
                         itemStack.set(ModDataComponentTypes.ENERGY, energy - 1);
+                        OneToolTier tier = GetToolDataHelper.getToolTier(itemStack);
+
+                        if (tier == OneToolTier.QUADRUPLE) return ActionResult.SUCCESS;
+
+                        int xp = itemStack.getOrDefault(ModDataComponentTypes.XP, 0);
+                        int maxEnergy = GetToolDataHelper.getMaxEnergy(itemStack);
+                        if (xp == tier.asInt() * maxEnergy) {
+                            OneToolTier cur = itemStack.getOrDefault(ModDataComponentTypes.ONE_TOOL_TIER, OneToolTier.BASE);
+                            OneToolTier next = cur.getNext();
+                            itemStack.set(ModDataComponentTypes.ONE_TOOL_TIER, next);
+                            itemStack.set(ModDataComponentTypes.XP, 0);
+                        } else {
+                            itemStack.set(ModDataComponentTypes.XP, xp + 1);
+                        }
                     } else {
                         return ActionResult.FAIL;
                     }
@@ -183,6 +198,20 @@ public class UseOnBlockHelper {
 
                 if (energy - 1 >= 0 && !playerEntity.isCreative()) {
                     itemStack.set(ModDataComponentTypes.ENERGY, energy - 1);
+                    OneToolTier tier = GetToolDataHelper.getToolTier(itemStack);
+
+                    if (tier == OneToolTier.QUADRUPLE) return ActionResult.SUCCESS;
+
+                    int xp = itemStack.getOrDefault(ModDataComponentTypes.XP, 0);
+                    int maxEnergy = GetToolDataHelper.getMaxEnergy(itemStack);
+                    if (xp == tier.asInt() * maxEnergy) {
+                        OneToolTier cur = itemStack.getOrDefault(ModDataComponentTypes.ONE_TOOL_TIER, OneToolTier.BASE);
+                        OneToolTier next = cur.getNext();
+                        itemStack.set(ModDataComponentTypes.ONE_TOOL_TIER, next);
+                        itemStack.set(ModDataComponentTypes.XP, 0);
+                    } else {
+                        itemStack.set(ModDataComponentTypes.XP, xp + 1);
+                    }
                 } else {
                     return ActionResult.FAIL;
                 }
@@ -215,8 +244,23 @@ public class UseOnBlockHelper {
                 world.emitGameEvent(GameEvent.BLOCK_CHANGE, blockPos, GameEvent.Emitter.of(playerEntity, optional.get()));
                 int energy = itemStack.getOrDefault(ModDataComponentTypes.ENERGY, 0);
 
+
                 if (energy - 1 >= 0 && !playerEntity.isCreative()) {
                     itemStack.set(ModDataComponentTypes.ENERGY, energy - 1);
+                    OneToolTier tier = GetToolDataHelper.getToolTier(itemStack);
+
+                    if (tier == OneToolTier.QUADRUPLE) return ActionResult.SUCCESS;
+
+                    int xp = itemStack.getOrDefault(ModDataComponentTypes.XP, 0);
+                    int maxEnergy = GetToolDataHelper.getMaxEnergy(itemStack);
+                    if (xp == tier.asInt() * maxEnergy) {
+                        OneToolTier cur = itemStack.getOrDefault(ModDataComponentTypes.ONE_TOOL_TIER, OneToolTier.BASE);
+                        OneToolTier next = cur.getNext();
+                        itemStack.set(ModDataComponentTypes.ONE_TOOL_TIER, next);
+                        itemStack.set(ModDataComponentTypes.XP, 0);
+                    } else {
+                        itemStack.set(ModDataComponentTypes.XP, xp + 1);
+                    }
                 } else {
                     return ActionResult.FAIL;
                 }

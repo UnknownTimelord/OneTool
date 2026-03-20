@@ -139,13 +139,45 @@ public class OneToolItem extends Item {
 
     @Override
     public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
-        decrementEnergy(stack, 1);
+        if (decrementEnergy(stack, 1)) {
+            OneToolTier tier = GetToolDataHelper.getToolTier(stack);
+
+            if (tier == OneToolTier.QUADRUPLE) return super.postMine(stack, world, state, pos, miner);
+
+            int xp = stack.getOrDefault(ModDataComponentTypes.XP, 0);
+            int maxEnergy = GetToolDataHelper.getMaxEnergy(stack);
+            if (xp == tier.asInt() * maxEnergy) {
+                OneToolTier cur = stack.getOrDefault(ModDataComponentTypes.ONE_TOOL_TIER, OneToolTier.BASE);
+                OneToolTier next = cur.getNext();
+                stack.set(ModDataComponentTypes.ONE_TOOL_TIER, next);
+                stack.set(ModDataComponentTypes.XP, 0);
+            } else {
+                stack.set(ModDataComponentTypes.XP, xp + 1);
+            }
+        }
         return super.postMine(stack, world, state, pos, miner);
     }
 
     @Override
     public void postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (decrementEnergy(stack, 1)) {
+            OneToolTier tier = GetToolDataHelper.getToolTier(stack);
+
+            if (tier == OneToolTier.QUADRUPLE) {
+                super.postHit(stack, target, attacker);
+                return;
+            }
+
+            int xp = stack.getOrDefault(ModDataComponentTypes.XP, 0);
+            int maxEnergy = GetToolDataHelper.getMaxEnergy(stack);
+            if (xp == tier.asInt() * maxEnergy) {
+                OneToolTier cur = stack.getOrDefault(ModDataComponentTypes.ONE_TOOL_TIER, OneToolTier.BASE);
+                OneToolTier next = cur.getNext();
+                stack.set(ModDataComponentTypes.ONE_TOOL_TIER, next);
+                stack.set(ModDataComponentTypes.XP, 0);
+            } else {
+                stack.set(ModDataComponentTypes.XP, xp + 1);
+            }
             super.postHit(stack, target, attacker);
         }
     }

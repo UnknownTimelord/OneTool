@@ -54,6 +54,21 @@ public class GetToolDataHelper {
         }
         return color;
     }
+    public static int getXpColor(ItemStack stack, int pct) {
+        int startColor = Colors.BLUE;
+        int color = MiscHelper.interpolateColor(startColor, Colors.GREEN, pct);
+
+        long mis = Util.getMeasuringTimeMs();
+        float t = (mis % 1200L) / 1200f;
+        float pulse = 2F * (float) Math.sin(t * Math.PI);
+        int pulse_color = MiscHelper.interpolateColor(Colors.BLACK, color, pulse);
+        int maxEnergy = getMaxEnergy(stack);
+
+        if (GetToolDataHelper.getXP(stack) >= maxEnergy - (maxEnergy / 4)) {
+            color = pulse_color;
+        }
+        return color;
+    }
 
     public static int getMaxInvSize(ItemStack tool) {
         return switch (getToolTier(tool)) {
@@ -62,5 +77,9 @@ public class GetToolDataHelper {
             case TRIPLE -> Constants.TRIPLE_INV_SIZE;
             case QUADRUPLE -> Constants.QUADRUPLE_INV_SIZE;
         };
+    }
+
+    public static int getXP(ItemStack tool) {
+        return tool.getOrDefault(ModDataComponentTypes.XP, 0);
     }
 }

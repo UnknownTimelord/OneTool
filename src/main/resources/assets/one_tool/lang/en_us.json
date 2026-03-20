@@ -1,11 +1,14 @@
 {
   "screen.onetool.title": "The One Tool To Rule Them All",
+  "item.one_tool.more_info": "Toggle F3 + H for more info.",
+  "item.one_tool.advanced_tooltip1": "Crouch and right click to eat.",
+  "item.one_tool.advanced_tooltip2": "Mine, till, path, and strip blocks for XP to level to the next tier.",
   "item.one_tool.one_tool": "The One Tool",
   "one_tool.energy.tooltip": "Energy: ",
   "one_tool.energy_value.tooltip": "%1$d/%2$d",
   "one_tool.tier.tooltip": "Tier ",
   "one_tool.tier_value.tooltip": "%1$d",
+  "one_tool.xp.tooltip": "XP: ",
   "one_tool.empty.tooltip": "EMPTY!",
-  "one_tool.hasnt_eaten.tooltip": "When eaten, this tool restores hunger\nat a 1:1 energy-to-missing-hunger ratio!",
-  "one_tool.has_eaten.tooltip": "Yummy!"
+  "item.one_tool.upgrade_kit": "Tool Upgrade Kit"
 }

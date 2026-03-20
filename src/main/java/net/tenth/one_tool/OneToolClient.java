@@ -2,13 +2,10 @@ package net.tenth.one_tool;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
 import net.minecraft.util.Formatting;
-import net.tenth.one_tool.component.ModDataComponentTypes;
 import net.tenth.one_tool.item.custom.OneToolItem;
 import net.tenth.one_tool.screen.ModScreenHandlers;
 import net.tenth.one_tool.screen.custom.OneToolScreen;
@@ -23,22 +20,11 @@ public class OneToolClient implements ClientModInitializer {
         ItemTooltipCallback.EVENT.register((stack, tooltipContext, type, textConsumer) -> {
             if (!(stack.getItem() instanceof OneToolItem)) return;
 
-            PlayerEntity player = MinecraftClient.getInstance().player;
-
-            if (player != null && type.isAdvanced()) {
-                boolean eaten = player.getOrDefault(ModDataComponentTypes.HAS_EATEN_ONE_TOOL, false);
-
-                if (!eaten) {
-                    Text t = Text.translatable("one_tool.hasnt_eaten.tooltip");
-
-                    textConsumer.addAll(1, MiscHelper.splitOnNewlines(t, Formatting.GOLD));
-                } else {
-                    textConsumer.add(1,
-                            Text.translatable(
-                                    "one_tool.has_eaten.tooltip"
-                            ).formatted(Formatting.GOLD)
-                    );
-                }
+            if (type.isAdvanced()) {
+                textConsumer.add(1, Text.translatable("item.one_tool.advanced_tooltip1").formatted(Formatting.GRAY));
+                textConsumer.add(1, Text.translatable("item.one_tool.advanced_tooltip2").formatted(Formatting.GRAY));
+            } else {
+                textConsumer.add(1, Text.translatable("item.one_tool.more_info").formatted(Formatting.GRAY).formatted(Formatting.ITALIC));
             }
 
             int maxEnergy = GetToolDataHelper.getMaxEnergy(stack);
@@ -48,24 +34,38 @@ public class OneToolClient implements ClientModInitializer {
             textConsumer.add(1, Text.translatable("one_tool.tier.tooltip")
                     .append(Text.translatable("one_tool.tier_value.tooltip", tier.asRoman()).formatted(Formatting.AQUA)));
 
-            Integer pct = MiscHelper.percent(stack);
-            int color
+            int xp = GetToolDataHelper.getXP(stack);
+            int requiredXp = tier.asInt() * maxEnergy;
+
+            Integer pct = MiscHelper.xpPercent(stack);
+
+            int xpColor
+                    = pct != null
+                    ? GetToolDataHelper.getXpColor(stack, pct)
+                    : Colors.RED;
+
+            textConsumer.add(1, Text.translatable("one_tool.xp.tooltip")
+                    .append(Text.translatable("one_tool.energy_value.tooltip", xp, requiredXp).withColor(xpColor)));
+
+            pct = MiscHelper.energyPercent(stack);
+            int energyColor
                     = pct != null
                     ? GetToolDataHelper.getEnergyColor(stack, pct)
                     : Colors.GREEN;
 
             if (energy != 0) {
                 textConsumer.add(1, Text.translatable("one_tool.energy.tooltip")
-                        .append(Text.translatable("one_tool.energy_value.tooltip", energy, maxEnergy).withColor(color)));
+                        .append(Text.translatable("one_tool.energy_value.tooltip", energy, maxEnergy).withColor(energyColor)));
             }
             else {
                 textConsumer.add(1, Text.translatable("one_tool.energy.tooltip")
                         .append(Text.translatable("one_tool.empty.tooltip")
-                                .withColor(color)
+                                .withColor(energyColor)
                                 .formatted(Formatting.BOLD)
                         )
                 );
             }
+
         });
     }
 }

@@ -28,7 +28,7 @@ public abstract class DrawContextMixin {
         }
         else {
             TextRenderer tr = MinecraftClient.getInstance().textRenderer;
-            Integer pct = MiscHelper.percent(stack);
+            Integer pct = MiscHelper.energyPercent(stack);
             if (pct == null) return;
 
             String s = pct + "%";

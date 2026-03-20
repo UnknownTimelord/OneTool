@@ -109,11 +109,20 @@ public class MiscHelper {
                 );
     }
 
-    public static Integer percent(ItemStack stack) {
+    public static Integer energyPercent(ItemStack stack) {
         int max = GetToolDataHelper.getMaxEnergy(stack);
         if (max <= 0) return null;
 
         int curr = Math.max(0, Math.min(max, GetToolDataHelper.getEnergy(stack)));
+
+        return Math.round(curr * 100f / max);
+    }
+
+    public static Integer xpPercent(ItemStack stack) {
+        int max = GetToolDataHelper.getToolTier(stack).asInt() * GetToolDataHelper.getMaxEnergy(stack);
+        if (max <= 0) return null;
+
+        int curr = Math.max(0, Math.min(max, GetToolDataHelper.getXP(stack)));
 
         return Math.round(curr * 100f / max);
     }

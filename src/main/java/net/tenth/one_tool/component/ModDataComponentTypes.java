@@ -26,6 +26,9 @@ public class ModDataComponentTypes {
     public static final ComponentType<Boolean> HAS_EATEN_ONE_TOOL =
             register("has_eaten_one_tool", builder -> builder.codec(Codec.BOOL));
 
+    public static final ComponentType<Integer> XP =
+            register("xp", builder -> builder.codec(Codec.INT));
+
     private static <T> ComponentType<T> register(String name, UnaryOperator<ComponentType.Builder<T>> builder) {
         return Registry.register(Registries.DATA_COMPONENT_TYPE, Identifier.of(OneTool.MOD_ID, name),
                 builder.apply(ComponentType.builder()).build());

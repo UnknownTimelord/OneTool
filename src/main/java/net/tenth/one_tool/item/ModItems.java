@@ -59,5 +59,6 @@ public class ModItems {
                     Constants.BASE_ATK_DAMAGE, Constants.BASE_ATK_SPEED, Constants.DISABLE_BLOCK_FOR_SEC)
             .customDamage((itemStack, i, entity, equipmentSlot, runnable) -> 0)
             .component(ModDataComponentTypes.ONE_TOOL_TIER, OneToolTier.BASE)
-            .component(ModDataComponentTypes.ENERGY, Constants.BASE_ENERGY));
+            .component(ModDataComponentTypes.ENERGY, Constants.BASE_ENERGY)
+            .component(ModDataComponentTypes.XP, 0));
 }
