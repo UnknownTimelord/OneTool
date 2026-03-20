@@ -25,18 +25,18 @@ public class ModRecipeProvider extends FabricRecipeProvider {
             @Override
             public void generate() {
                 ShapedRecipeJsonBuilder.create(Registries.ITEM, RecipeCategory.TOOLS, ModItems.ONE_TOOL)
-                        .input('A', Items.IRON_AXE)
-                        .input('P', Items.IRON_PICKAXE)
-                        .input('S', Items.IRON_SHOVEL)
-                        .input('H', Items.IRON_HOE)
+                        .input('A', Items.GOLDEN_AXE)
+                        .input('P', Items.GOLDEN_PICKAXE)
+                        .input('S', Items.GOLDEN_SHOVEL)
+                        .input('H', Items.GOLDEN_HOE)
                         .input('R', Items.REDSTONE_BLOCK)
                         .pattern("APS")
                         .pattern(" H ")
                         .pattern(" R ")
-                        .criterion(hasItem(Items.IRON_AXE), conditionsFromItem(Items.IRON_AXE))
-                        .criterion(hasItem(Items.IRON_PICKAXE), conditionsFromItem(Items.IRON_PICKAXE))
-                        .criterion(hasItem(Items.IRON_SHOVEL), conditionsFromItem(Items.IRON_SHOVEL))
-                        .criterion(hasItem(Items.IRON_HOE), conditionsFromItem(Items.IRON_HOE))
+                        .criterion(hasItem(Items.GOLDEN_AXE), conditionsFromItem(Items.GOLDEN_AXE))
+                        .criterion(hasItem(Items.GOLDEN_PICKAXE), conditionsFromItem(Items.GOLDEN_PICKAXE))
+                        .criterion(hasItem(Items.GOLDEN_SHOVEL), conditionsFromItem(Items.GOLDEN_SHOVEL))
+                        .criterion(hasItem(Items.GOLDEN_HOE), conditionsFromItem(Items.GOLDEN_HOE))
                         .offerTo(recipeExporter);
             }
         };

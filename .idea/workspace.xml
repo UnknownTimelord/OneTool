@@ -4,29 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d81e3204-dcca-47de-a83a-4e04912f7003" name="Changes" comment="More inventory stuff, now eating the tool fills ur hunger and takes the same amount in energy">
+    <list default="true" id="d81e3204-dcca-47de-a83a-4e04912f7003" name="Changes" comment="Release version. Removed AnvilScreenHandlerMixin.java, using an XP system for upgrade instead. Removed the ability to enchant the One Tool as leveling for tiers is the intended method of improvement.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/generated/assets/one_tool/items/one_tool.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/generated/assets/one_tool/items/one_tool.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/generated/assets/one_tool/models/item/one_tool.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/generated/assets/one_tool/models/item/one_tool.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/generated/data/minecraft/tags/item/axes.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/generated/data/minecraft/tags/item/axes.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/generated/data/minecraft/tags/item/hoes.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/generated/data/minecraft/tags/item/hoes.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/generated/data/minecraft/tags/item/pickaxes.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/generated/data/minecraft/tags/item/pickaxes.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/generated/data/minecraft/tags/item/shovels.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/generated/data/minecraft/tags/item/shovels.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/generated/data/one_tool/advancement/recipes/tools/one_tool.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/generated/data/one_tool/advancement/recipes/tools/one_tool.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/generated/data/one_tool/recipe/one_tool.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/generated/data/one_tool/recipe/one_tool.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/generated/data/one_tool/tags/block/breaks_all.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/generated/data/one_tool/tags/block/breaks_all.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/OneToolClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/OneToolClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/component/ModDataComponentTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/component/ModDataComponentTypes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/datagen/ModItemTagProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/datagen/ModItemTagProvider.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/item/ModItems.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/item/ModItems.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/item/custom/OneToolItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/item/custom/OneToolItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/mixin/AnvilScreenHandlerMixin.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/mixin/DrawContextMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/mixin/DrawContextMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/util/GetToolDataHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/util/GetToolDataHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/util/MiscHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/util/MiscHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/util/UseOnBlockHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/util/UseOnBlockHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/one_tool/lang/en_us.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/assets/one_tool/lang/en_us.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/one_tool.mixins.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/one_tool.mixins.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/datagen/ModRecipeProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/datagen/ModRecipeProvider.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,6 +39,12 @@
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="OneTool" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="OneTool" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
@@ -106,6 +93,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Gradle.Download Sources.executor": "Run",
+    "Gradle.OneTool [jar].executor": "Run",
     "Gradle.OneTool [runClient].executor": "Run",
     "Gradle.OneTool [runDatagen].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
@@ -135,6 +123,28 @@
     </key>
   </component>
   <component name="RunManager" selected="Gradle.OneTool [runClient]">
+    <configuration name="OneTool [jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="jar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
     <configuration name="OneTool [runClient]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -182,6 +192,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.OneTool [runClient]" />
+        <item itemvalue="Gradle.OneTool [jar]" />
         <item itemvalue="Gradle.OneTool [runDatagen]" />
       </list>
     </recent_temporary>
@@ -206,7 +217,7 @@
       <workItem from="1771146131728" duration="12148000" />
       <workItem from="1771241842949" duration="4384000" />
       <workItem from="1771865637867" duration="3837000" />
-      <workItem from="1773986020681" duration="7797000" />
+      <workItem from="1773986020681" duration="10591000" />
     </task>
     <task id="LOCAL-00001" summary="First commit">
       <option name="closed" value="true" />
@@ -240,7 +251,15 @@
       <option name="project" value="LOCAL" />
       <updated>1771852032169</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Release version. Removed AnvilScreenHandlerMixin.java, using an XP system for upgrade instead. Removed the ability to enchant the One Tool as leveling for tiers is the intended method of improvement.">
+      <option name="closed" value="true" />
+      <created>1773997745555</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1773997745555</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -251,6 +270,7 @@
     <MESSAGE value="Energy exists and drains, next is charging, inventory stuff, and more if I think of something" />
     <MESSAGE value="Inventory and screen stuff, WIP" />
     <MESSAGE value="More inventory stuff, now eating the tool fills ur hunger and takes the same amount in energy" />
-    <option name="LAST_COMMIT_MESSAGE" value="More inventory stuff, now eating the tool fills ur hunger and takes the same amount in energy" />
+    <MESSAGE value="Release version. Removed AnvilScreenHandlerMixin.java, using an XP system for upgrade instead. Removed the ability to enchant the One Tool as leveling for tiers is the intended method of improvement." />
+    <option name="LAST_COMMIT_MESSAGE" value="Release version. Removed AnvilScreenHandlerMixin.java, using an XP system for upgrade instead. Removed the ability to enchant the One Tool as leveling for tiers is the intended method of improvement." />
   </component>
 </project>
