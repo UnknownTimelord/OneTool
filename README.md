@@ -1,7 +1,7 @@
 The One Repository for The One Tool mod for Minecraft.
 
 Description:
-* Adds a tool whose purpose is to function like a lot of tools in one.
+* Adds a tool whose purpose is to function like all vanilla tools in one and more.
 
 Built-in vanilla functions:
 * Pickaxe
