@@ -5,7 +5,7 @@ Description:
 
 Built-in vanilla functions:
 * Pickaxe
-* Axe (+ stripping)
+* Axe (+ stripping & weapon stats)
 * Shovel (+ pathing)
 * Hoe (+ tilling)
 (For the last two, it will path grass-type blocks but till dirt-type blocks)
