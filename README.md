@@ -17,6 +17,7 @@ Extra functions:
 Planned function(s):
 * Place torches on Stone from Player Inventory.
 * Store blocks mined in tool's inventory on a key-bindable toggle.
+* 
 The code in this repository is probably terrible, so viewer discretion is advised.
 
 If you run into any issues, or are a programmer and want to give constructive critisism, please create an issue ticket. 
