@@ -1,12 +1,17 @@
 package net.tenth.one_tool;
 
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
 import net.minecraft.util.Formatting;
 import net.tenth.one_tool.item.custom.OneToolItem;
+import net.tenth.one_tool.key.ModKeybinds;
+import net.tenth.one_tool.network.OpenOneToolInventoryC2SPacket;
+import net.tenth.one_tool.network.TogglePickupC2SPacket;
 import net.tenth.one_tool.screen.ModScreenHandlers;
 import net.tenth.one_tool.screen.custom.OneToolScreen;
 import net.tenth.one_tool.types.OneToolTier;
@@ -66,6 +71,15 @@ public class OneToolClient implements ClientModInitializer {
                 );
             }
 
+        });
+        ModKeybinds.init();
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            while (ModKeybinds.TOOL_PICKUP.wasPressed()) {
+                ClientPlayNetworking.send(new TogglePickupC2SPacket());
+            }
+            while (ModKeybinds.TOOL_INV.wasPressed()) {
+                ClientPlayNetworking.send(new OpenOneToolInventoryC2SPacket());
+            }
         });
     }
 }

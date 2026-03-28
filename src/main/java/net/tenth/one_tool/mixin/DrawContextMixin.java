@@ -1,5 +1,4 @@
 package net.tenth.one_tool.mixin;
-
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;

@@ -1,8 +1,9 @@
 {
   "screen.onetool.title": "The One Tool To Rule Them All",
   "item.one_tool.more_info": "Toggle F3 + H for more info.",
-  "item.one_tool.advanced_tooltip1": "Crouch and right click to eat.",
+  "item.one_tool.advanced_tooltip1": "Right click to eat",
   "item.one_tool.advanced_tooltip2": "Mine, till, path, and strip blocks for XP to level to the next tier.",
+  "item.one_tool.advanced_tooltip3": "Press %1$d to open the inventory, and %2$d to toggle block pickup.",
   "item.one_tool.one_tool": "The One Tool",
   "one_tool.energy.tooltip": "Energy: ",
   "one_tool.energy_value.tooltip": "%1$d/%2$d",
@@ -10,5 +11,11 @@
   "one_tool.tier_value.tooltip": "%1$d",
   "one_tool.xp.tooltip": "XP: ",
   "one_tool.empty.tooltip": "EMPTY!",
-  "item.one_tool.upgrade_kit": "Tool Upgrade Kit"
+  "item.one_tool.upgrade_kit": "Tool Upgrade Kit",
+  "key.one_tool.tool_pickup": "Toggle Block Pickup On Mine",
+  "key.one_tool.open_inventory": "Open OneTool Inventory",
+  "key.category.one_tool.general": "OneTool",
+  "one_tool.pickup_enabled": "Automatic block pickup enabled!",
+  "one_tool.pickup_disabled": "Automatic block pickup disabled!",
+  "one_tool.full": "Player & OneTool inventories are full!"
 }

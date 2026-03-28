@@ -4,10 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d81e3204-dcca-47de-a83a-4e04912f7003" name="Changes" comment="Release version. Removed AnvilScreenHandlerMixin.java, using an XP system for upgrade instead. Removed the ability to enchant the One Tool as leveling for tiers is the intended method of improvement.">
+    <list default="true" id="d81e3204-dcca-47de-a83a-4e04912f7003" name="Changes" comment="More inventory stuff, now eating the tool fills ur hunger and takes the same amount in energy">
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/key/ModKeybinds.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/mixin/BlockDropsMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/network/OpenOneToolInventoryC2SPacket.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/network/TogglePickupC2SPacket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/datagen/ModRecipeProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/datagen/ModRecipeProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/OneTool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/OneTool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/OneToolClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/OneToolClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/component/ModDataComponentTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/component/ModDataComponentTypes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/inventory/OneToolInventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/inventory/OneToolInventory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/item/custom/OneToolItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/item/custom/OneToolItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/mixin/DrawContextMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/mixin/DrawContextMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/one_tool/lang/en_us.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/assets/one_tool/lang/en_us.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/one_tool.mixins.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/one_tool.mixins.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,12 +55,6 @@
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="OneTool" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="build" type="c8890929:TasksNode$1" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="OneTool" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="fabric" type="c8890929:TasksNode$1" />
               </path>
             </expand>
@@ -64,6 +69,7 @@
       <list>
         <option value="Enum" />
         <option value="Class" />
+        <option value="Record" />
       </list>
     </option>
   </component>
@@ -90,61 +96,38 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.Download Sources.executor": "Run",
-    "Gradle.OneTool [jar].executor": "Run",
-    "Gradle.OneTool [runClient].executor": "Run",
-    "Gradle.OneTool [runDatagen].executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "master",
-    "junie.onboarding.icon.badge.shown": "true",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "editor.preferences.import",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.OneTool [runClient].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.OneTool [runDatagen].executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.import&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/run/mods" />
       <recent name="C:\Users\amyst\OneDrive\Documents\OneTool\src\main\java\net\tenth\one_tool\datagen" />
     </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="net.tenth.one_tool.network" />
+    </key>
   </component>
   <component name="RunManager" selected="Gradle.OneTool [runClient]">
-    <configuration name="OneTool [jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="jar" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>false</RunAsTest>
-      <method v="2" />
-    </configuration>
     <configuration name="OneTool [runClient]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -163,8 +146,11 @@
       </ExternalSystemSettings>
       <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
       <DebugAllEnabled>false</DebugAllEnabled>
       <RunAsTest>false</RunAsTest>
+      <GradleProfilingDisabled>false</GradleProfilingDisabled>
+      <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
     <configuration name="OneTool [runDatagen]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -185,14 +171,16 @@
       </ExternalSystemSettings>
       <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
       <DebugAllEnabled>false</DebugAllEnabled>
       <RunAsTest>false</RunAsTest>
+      <GradleProfilingDisabled>false</GradleProfilingDisabled>
+      <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.OneTool [runClient]" />
-        <item itemvalue="Gradle.OneTool [jar]" />
         <item itemvalue="Gradle.OneTool [runDatagen]" />
       </list>
     </recent_temporary>
@@ -200,8 +188,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.28238.7" />
-        <option value="bundled-js-predefined-d6986cc7102b-a71380e98a7c-JavaScript-IU-252.28238.7" />
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.31033.145" />
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.31033.145" />
       </set>
     </attachedChunks>
   </component>
@@ -217,7 +205,6 @@
       <workItem from="1771146131728" duration="12148000" />
       <workItem from="1771241842949" duration="4384000" />
       <workItem from="1771865637867" duration="3837000" />
-      <workItem from="1773986020681" duration="10591000" />
     </task>
     <task id="LOCAL-00001" summary="First commit">
       <option name="closed" value="true" />
@@ -251,15 +238,7 @@
       <option name="project" value="LOCAL" />
       <updated>1771852032169</updated>
     </task>
-    <task id="LOCAL-00005" summary="Release version. Removed AnvilScreenHandlerMixin.java, using an XP system for upgrade instead. Removed the ability to enchant the One Tool as leveling for tiers is the intended method of improvement.">
-      <option name="closed" value="true" />
-      <created>1773997745555</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1773997745555</updated>
-    </task>
-    <option name="localTasksCounter" value="6" />
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -270,7 +249,6 @@
     <MESSAGE value="Energy exists and drains, next is charging, inventory stuff, and more if I think of something" />
     <MESSAGE value="Inventory and screen stuff, WIP" />
     <MESSAGE value="More inventory stuff, now eating the tool fills ur hunger and takes the same amount in energy" />
-    <MESSAGE value="Release version. Removed AnvilScreenHandlerMixin.java, using an XP system for upgrade instead. Removed the ability to enchant the One Tool as leveling for tiers is the intended method of improvement." />
-    <option name="LAST_COMMIT_MESSAGE" value="Release version. Removed AnvilScreenHandlerMixin.java, using an XP system for upgrade instead. Removed the ability to enchant the One Tool as leveling for tiers is the intended method of improvement." />
+    <option name="LAST_COMMIT_MESSAGE" value="More inventory stuff, now eating the tool fills ur hunger and takes the same amount in energy" />
   </component>
 </project>

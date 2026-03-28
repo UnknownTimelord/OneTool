@@ -3,7 +3,8 @@
 	"package": "net.tenth.one_tool.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"DrawContextMixin"
+		"DrawContextMixin",
+		"BlockDropsMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

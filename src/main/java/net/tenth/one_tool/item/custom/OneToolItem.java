@@ -1,6 +1,5 @@
 package net.tenth.one_tool.item.custom;
 
-import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.component.DataComponentTypes;
@@ -10,29 +9,22 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.tenth.one_tool.component.ModDataComponentTypes;
-import net.tenth.one_tool.inventory.OneToolInventory;
-import net.tenth.one_tool.screen.custom.OneToolScreenHandler;
 import net.tenth.one_tool.types.OneToolTier;
 import net.tenth.one_tool.util.Constants;
 import net.tenth.one_tool.util.GetToolDataHelper;
 import net.tenth.one_tool.util.MiscHelper;
 import net.tenth.one_tool.util.UseOnBlockHelper;
-import org.jspecify.annotations.NonNull;
 import oshi.util.tuples.Triplet;
 
 public class OneToolItem extends Item {
@@ -48,44 +40,11 @@ public class OneToolItem extends Item {
 
         ItemStack tool = player.getMainHandStack();
 
-        if (player.isSneaking() && player.getHungerManager().isNotFull() && GetToolDataHelper.hasEnergy(tool)) {
-            ConsumableComponent consumableComponent = tool.get(DataComponentTypes.CONSUMABLE);
-            if (consumableComponent != null) {
-                return consumableComponent.consume(player, tool.copy(), hand);
-            }
+        ConsumableComponent consumableComponent = tool.get(DataComponentTypes.CONSUMABLE);
+        if (consumableComponent != null) {
+            return consumableComponent.consume(player, tool.copy(), hand);
         }
-
-        OneToolInventory inventory = tool.get(ModDataComponentTypes.ONE_TOOL_INV);
-
-        if (inventory == null) {
-            tool.set(
-                    ModDataComponentTypes.ONE_TOOL_INV,
-                    new OneToolInventory(tool.getOrDefault(ModDataComponentTypes.ONE_TOOL_TIER, OneToolTier.BASE))
-            );
-        }
-        if (inventory != null && inventory.size() < GetToolDataHelper.getMaxInvSize(tool)) {
-            OneToolInventory newInv = new OneToolInventory(GetToolDataHelper.getMaxInvSize(tool), inventory.items);
-            tool.set(ModDataComponentTypes.ONE_TOOL_INV, newInv);
-        }
-
-        player.openHandledScreen(new ExtendedScreenHandlerFactory<ItemStack>() {
-            @Override
-            public @NonNull ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-                return new OneToolScreenHandler(syncId, playerInventory, tool);
-            }
-
-            @Override
-            public Text getDisplayName() {
-                return Text.translatable("screen.onetool.title");
-            }
-
-            @Override
-            public ItemStack getScreenOpeningData(@NonNull ServerPlayerEntity serverPlayerEntity) {
-                return tool;
-            }
-        });
-
-        return ActionResult.SUCCESS;
+        return ActionResult.PASS;
     }
 
     @Override
@@ -141,7 +100,6 @@ public class OneToolItem extends Item {
     public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
         if (decrementEnergy(stack, 1)) {
             OneToolTier tier = GetToolDataHelper.getToolTier(stack);
-
             if (tier == OneToolTier.QUADRUPLE) return super.postMine(stack, world, state, pos, miner);
 
             int xp = stack.getOrDefault(ModDataComponentTypes.XP, 0);

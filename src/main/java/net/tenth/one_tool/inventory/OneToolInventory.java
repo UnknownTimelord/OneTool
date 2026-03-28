@@ -10,6 +10,7 @@ import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.util.collection.DefaultedList;
+import net.tenth.one_tool.OneTool;
 import net.tenth.one_tool.item.custom.OneToolItem;
 import net.tenth.one_tool.types.OneToolTier;
 import net.tenth.one_tool.util.Constants;
@@ -97,6 +98,39 @@ public class OneToolInventory implements Inventory {
     @Override
     public void setStack(int slot, ItemStack stack) {
         items.set(slot, stack);
+    }
+
+    public boolean insertStack(ItemStack stack) {
+        for (int i = 0; i < this.size(); i++) {
+            ItemStack existing = this.items.get(i);
+
+            OneTool.LOGGER.info("This should not bw an empty stack: {}", this.items.get(i));
+
+            if (!existing.isEmpty()
+                    && ItemStack.areItemsAndComponentsEqual(existing, stack)
+                    && existing.getCount() < existing.getMaxCount()) {
+                int space = existing.getMaxCount() - existing.getCount();
+                int moved = Math.min(space, stack.getCount());
+                existing.increment(moved);
+                stack.decrement(moved);
+                if (stack.isEmpty()) {
+                    OneTool.LOGGER.info("This should 1 more {}: {}", stack.getItem(), this.items.get(i));
+                    return true;
+                }
+            }
+        }
+
+        for (int i = 0; i < this.size(); i++) {
+            if (this.items.get(i).isEmpty()) {
+                OneTool.LOGGER.info("This should be an empty stack: {}", this.items.get(i));
+                this.items.set(i, stack.copy());
+                OneTool.LOGGER.info("This should 1 of {}: {}", stack.getItem(), this.items.get(i));
+                stack.setCount(0);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override
