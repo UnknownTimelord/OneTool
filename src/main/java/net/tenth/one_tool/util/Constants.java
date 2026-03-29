@@ -1,5 +1,6 @@
 package net.tenth.one_tool.util;
 
+import net.minecraft.component.type.FoodComponent;
 import net.tenth.one_tool.types.OneToolTier;
 
 import java.util.Map;
@@ -24,4 +25,5 @@ public class Constants {
             OneToolTier.QUADRUPLE, QUADRUPLE_ENERGY
     );
     public static final Random RANDOM = new Random();
+    public static final FoodComponent EMPTY_FOOD = new FoodComponent.Builder().build();
 }

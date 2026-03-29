@@ -4,21 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d81e3204-dcca-47de-a83a-4e04912f7003" name="Changes" comment="More inventory stuff, now eating the tool fills ur hunger and takes the same amount in energy">
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/key/ModKeybinds.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/mixin/BlockDropsMixin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/network/OpenOneToolInventoryC2SPacket.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/network/TogglePickupC2SPacket.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="d81e3204-dcca-47de-a83a-4e04912f7003" name="Changes" comment="Added keybinds for toggling block pickup and opening the inventory. Eating will no longer requires sneak for this reason.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/network/ToggleConsumeC2SPacket.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/OneTool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/OneTool.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/OneToolClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/OneToolClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/component/ModDataComponentTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/component/ModDataComponentTypes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/inventory/OneToolInventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/inventory/OneToolInventory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/item/ModItems.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/item/ModItems.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/item/custom/OneToolItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/item/custom/OneToolItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/mixin/DrawContextMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/mixin/DrawContextMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/key/ModKeybinds.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/key/ModKeybinds.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/util/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/util/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/util/GetToolDataHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/tenth/one_tool/util/GetToolDataHelper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/assets/one_tool/lang/en_us.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/assets/one_tool/lang/en_us.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/one_tool.mixins.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/one_tool.mixins.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,12 +79,12 @@
     &quot;assignee&quot;: &quot;UnknownTimelord&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/UnknownTimelord/OneTool.git&quot;,
-    &quot;accountId&quot;: &quot;57410466-5b04-4736-b82a-03d9863ac996&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/UnknownTimelord/OneTool.git",
+    "accountId": "fe95d83e-c9a4-40f9-8f39-18124882a855"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 2
@@ -188,8 +185,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.31033.145" />
-        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.31033.145" />
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.30387.90" />
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.30387.90" />
       </set>
     </attachedChunks>
   </component>
@@ -205,6 +202,7 @@
       <workItem from="1771146131728" duration="12148000" />
       <workItem from="1771241842949" duration="4384000" />
       <workItem from="1771865637867" duration="3837000" />
+      <workItem from="1774769285667" duration="14047000" />
     </task>
     <task id="LOCAL-00001" summary="First commit">
       <option name="closed" value="true" />
@@ -238,17 +236,37 @@
       <option name="project" value="LOCAL" />
       <updated>1771852032169</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Added keybinds for toggling block pickup and opening the inventory. Eating will no longer requires sneak for this reason.">
+      <option name="closed" value="true" />
+      <created>1774699422480</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1774699422480</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="First commit" />
     <MESSAGE value="Energy exists and drains, next is charging, inventory stuff, and more if I think of something" />
     <MESSAGE value="Inventory and screen stuff, WIP" />
     <MESSAGE value="More inventory stuff, now eating the tool fills ur hunger and takes the same amount in energy" />
-    <option name="LAST_COMMIT_MESSAGE" value="More inventory stuff, now eating the tool fills ur hunger and takes the same amount in energy" />
+    <MESSAGE value="Added keybinds for toggling block pickup and opening the inventory. Eating will no longer requires sneak for this reason." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added keybinds for toggling block pickup and opening the inventory. Eating will no longer requires sneak for this reason." />
   </component>
 </project>

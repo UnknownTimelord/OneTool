@@ -1,5 +1,7 @@
 package net.tenth.one_tool.util;
 
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.FoodComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Colors;
 import net.minecraft.util.Util;
@@ -35,6 +37,7 @@ public class GetToolDataHelper {
         int clampedEnergy = Math.max(0, Math.min(energy, maxEnergy));
 
         tool.set(ModDataComponentTypes.ENERGY, clampedEnergy);
+        tool.set(DataComponentTypes.FOOD, new FoodComponent(0, 0, false));
         return tool;
     }
     public static boolean hasEnergy(ItemStack stack) {

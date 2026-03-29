@@ -3,28 +3,33 @@ package net.tenth.one_tool.item.custom;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.ConsumableComponent;
-import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.tenth.one_tool.component.ModDataComponentTypes;
+import net.tenth.one_tool.inventory.OneToolInventory;
 import net.tenth.one_tool.types.OneToolTier;
 import net.tenth.one_tool.util.Constants;
 import net.tenth.one_tool.util.GetToolDataHelper;
 import net.tenth.one_tool.util.MiscHelper;
 import net.tenth.one_tool.util.UseOnBlockHelper;
+import org.jspecify.annotations.Nullable;
 import oshi.util.tuples.Triplet;
 
 public class OneToolItem extends Item {
@@ -34,17 +39,80 @@ public class OneToolItem extends Item {
     }
 
     @Override
-    public ActionResult use(World world, PlayerEntity player, Hand hand) {
-        if(world.isClient() || !(player.getMainHandStack().getItem() instanceof OneToolItem))
-            return ActionResult.PASS;
+    public void inventoryTick(ItemStack stack, ServerWorld world, Entity entity, @Nullable EquipmentSlot slot) {
+        if (world.isClient()
+                || !stack.isOf(this)
+                || !stack.getOrDefault(ModDataComponentTypes.CONSUME, false)
+                || !(entity instanceof PlayerEntity player)
+                || player.getMainHandStack() != stack) return;
 
-        ItemStack tool = player.getMainHandStack();
+        int hunger = stack.getOrDefault(ModDataComponentTypes.HUNGER, 0);
+        int cooldown = stack.getOrDefault(ModDataComponentTypes.CONSUME_COOLDOWN, 0);
 
-        ConsumableComponent consumableComponent = tool.get(DataComponentTypes.CONSUMABLE);
-        if (consumableComponent != null) {
-            return consumableComponent.consume(player, tool.copy(), hand);
+        if (hunger < 20 && cooldown == 0) {
+            OneToolTier tier = stack.getOrDefault(ModDataComponentTypes.ONE_TOOL_TIER, OneToolTier.BASE);
+            OneToolInventory toolInventory = stack.getOrDefault(ModDataComponentTypes.ONE_TOOL_INV, new OneToolInventory(tier));
+            OneToolInventory unchangedInv = stack.getOrDefault(ModDataComponentTypes.ONE_TOOL_INV, new OneToolInventory(tier));
+            for (ItemStack itemStack : toolInventory) {
+                if (!itemStack.isOf(this) && itemStack.contains(DataComponentTypes.FOOD)) {
+                    int toStore = hunger + itemStack.getOrDefault(DataComponentTypes.FOOD, Constants.EMPTY_FOOD).nutrition();
+                    if (toStore == hunger)
+                        continue;
+                    itemStack.decrement(1);
+                    world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                    if (toStore > 20) toStore = 20;
+                    stack.set(ModDataComponentTypes.HUNGER, toStore);
+                    stack.set(ModDataComponentTypes.CONSUME_COOLDOWN, 20);
+                }
+            }
+            if (toolInventory != unchangedInv) {
+                stack.set(ModDataComponentTypes.ONE_TOOL_INV, toolInventory);
+            }
+
+            hunger = stack.getOrDefault(ModDataComponentTypes.HUNGER, 0);
+            cooldown = stack.getOrDefault(ModDataComponentTypes.CONSUME_COOLDOWN, 0);
+
+            if (hunger < 20 && cooldown == 0) {
+                PlayerInventory playerInventory = player.getInventory();
+
+                for (ItemStack itemStack : playerInventory) {
+                    if (!itemStack.isOf(this) && itemStack.contains(DataComponentTypes.FOOD)) {
+                        int toStore = hunger + itemStack.getOrDefault(DataComponentTypes.FOOD, Constants.EMPTY_FOOD).nutrition();
+                        if (toStore == hunger)
+                            continue;
+                        itemStack.decrement(1);
+                        world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                        if (toStore > 20) toStore = 20;
+                        stack.set(ModDataComponentTypes.HUNGER, toStore);
+                        stack.set(ModDataComponentTypes.CONSUME_COOLDOWN, 20);
+                    }
+                }
+            }
+        } else if (cooldown > 0) {
+            stack.set(ModDataComponentTypes.CONSUME_COOLDOWN, cooldown - 1);
         }
-        return ActionResult.PASS;
+
+        hunger = stack.getOrDefault(ModDataComponentTypes.HUNGER, 0);
+        cooldown = stack.getOrDefault(ModDataComponentTypes.CONSUME_COOLDOWN, 0);
+
+        if (cooldown == 0 && hunger >= 1 && (MiscHelper.getMissingHunger(player) >= 1 || player.getHungerManager().getSaturationLevel() < 20)) {
+            if (MiscHelper.getMissingHunger(player) >= 1) {
+                player.getHungerManager().add(1, 0);
+            } else if (player.getHungerManager().getSaturationLevel() < 20 && player.getHealth() == player.getMaxHealth()) {
+                player.getHungerManager().setSaturationLevel(player.getHungerManager().getSaturationLevel() + 1);
+            }
+            stack.set(ModDataComponentTypes.HUNGER, hunger - 1);
+            stack.set(ModDataComponentTypes.CONSUME_COOLDOWN, 20);
+        }
+    }
+
+    @Override
+    public boolean allowComponentsUpdateAnimation(PlayerEntity player, Hand hand, ItemStack oldStack, ItemStack newStack) {
+        int oldEnergy = GetToolDataHelper.getEnergy(oldStack);
+        int newEnergy = GetToolDataHelper.getEnergy(newStack);
+        int oldXp = GetToolDataHelper.getXP(oldStack);
+        int newXp = GetToolDataHelper.getXP(newStack);
+        return oldEnergy != newEnergy && oldXp != newXp;
     }
 
     @Override
@@ -58,7 +126,7 @@ public class OneToolItem extends Item {
 
         if (!GetToolDataHelper.hasEnergy(tool)) return ActionResult.FAIL;
 
-        if (player == null || player.isSneaking() || tool == ItemStack.EMPTY || player.getHungerManager().isNotFull()) return ActionResult.PASS;
+        if (player == null || tool == ItemStack.EMPTY) return ActionResult.PASS;
 
         Triplet<Boolean, BlockPos, Direction> raycast = UseOnBlockHelper.simpleRaycast(world, player, Fluids.EMPTY);
         if (raycast.getA()) return ActionResult.PASS;
@@ -78,22 +146,6 @@ public class OneToolItem extends Item {
                 && world.getBlockState(aBlock).getBlock() != Blocks.PODZOL
                 && world.getBlockState(aBlock).getBlock() != Blocks.MYCELIUM) return UseOnBlockHelper.hoeUseOnBlock(context);
         else return UseOnBlockHelper.shovelUseOnBlock(context);
-    }
-
-    @Override
-    public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        ConsumableComponent cc = stack.get(DataComponentTypes.CONSUMABLE);
-        if (cc != null && user instanceof PlayerEntity player) {
-            int toFill = MiscHelper.getMissingHunger(player);
-            stack.set(DataComponentTypes.FOOD, new FoodComponent(toFill, (float) toFill / 2, false));
-            cc.finishConsumption(world, user, stack.copy());
-
-            player.setComponent(ModDataComponentTypes.HAS_EATEN_ONE_TOOL, true);
-
-            decrementEnergy(stack, toFill);
-            stack.set(DataComponentTypes.FOOD, new FoodComponent(0, 0, false));
-        }
-        return stack.copy();
     }
 
     @Override

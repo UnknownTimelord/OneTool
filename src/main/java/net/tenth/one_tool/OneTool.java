@@ -15,6 +15,7 @@ import net.tenth.one_tool.inventory.OneToolInventory;
 import net.tenth.one_tool.item.ModItems;
 import net.tenth.one_tool.item.custom.OneToolItem;
 import net.tenth.one_tool.network.OpenOneToolInventoryC2SPacket;
+import net.tenth.one_tool.network.ToggleConsumeC2SPacket;
 import net.tenth.one_tool.network.TogglePickupC2SPacket;
 import net.tenth.one_tool.screen.ModScreenHandlers;
 import net.tenth.one_tool.screen.custom.OneToolScreenHandler;
@@ -35,6 +36,7 @@ public class OneTool implements ModInitializer {
 		ModScreenHandlers.init();
 		PayloadTypeRegistry.playC2S().register(TogglePickupC2SPacket.ID, TogglePickupC2SPacket.CODEC);
 		PayloadTypeRegistry.playC2S().register(OpenOneToolInventoryC2SPacket.ID, OpenOneToolInventoryC2SPacket.CODEC);
+		PayloadTypeRegistry.playC2S().register(ToggleConsumeC2SPacket.ID, ToggleConsumeC2SPacket.CODEC);
 		ServerPlayNetworking.registerGlobalReceiver(TogglePickupC2SPacket.ID, (payload, context) -> {
 			var player = context.player();
 			var tool = context.player().getMainHandStack();
@@ -85,6 +87,22 @@ public class OneTool implements ModInitializer {
 							return tool;
 						}
 					});
+				}
+			});
+		});
+		ServerPlayNetworking.registerGlobalReceiver(ToggleConsumeC2SPacket.ID, (payload, context) -> {
+			var player = context.player();
+			var tool = context.player().getMainHandStack();
+
+			context.server().execute(() -> {
+				if (tool.getItem() instanceof OneToolItem) {
+					boolean isActive = tool.getOrDefault(ModDataComponentTypes.CONSUME, false);
+					if (isActive) {
+						player.sendMessage(Text.translatable("one_tool.consume_disabled"));
+					} else {
+						player.sendMessage(Text.translatable("one_tool.consume_enabled"));
+					}
+					tool.set(ModDataComponentTypes.CONSUME, !isActive);
 				}
 			});
 		});

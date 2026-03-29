@@ -32,6 +32,15 @@ public class ModDataComponentTypes {
     public static final ComponentType<Boolean> PICKUP =
             register("pickup", builder -> builder.codec(Codec.BOOL));
 
+    public static final ComponentType<Integer> HUNGER =
+            register("hunger", builder -> builder.codec(Codec.INT));
+
+    public static final ComponentType<Integer> CONSUME_COOLDOWN =
+            register("consume_cooldown", builder -> builder.codec(Codec.INT));
+
+    public static final ComponentType<Boolean> CONSUME =
+            register("consume", builder -> builder.codec(Codec.BOOL));
+
     private static <T> ComponentType<T> register(String name, UnaryOperator<ComponentType.Builder<T>> builder) {
         return Registry.register(Registries.DATA_COMPONENT_TYPE, Identifier.of(OneTool.MOD_ID, name),
                 builder.apply(ComponentType.builder()).build());

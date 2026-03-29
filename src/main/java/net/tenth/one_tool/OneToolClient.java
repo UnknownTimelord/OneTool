@@ -8,9 +8,11 @@ import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
 import net.minecraft.util.Formatting;
+import net.tenth.one_tool.component.ModDataComponentTypes;
 import net.tenth.one_tool.item.custom.OneToolItem;
 import net.tenth.one_tool.key.ModKeybinds;
 import net.tenth.one_tool.network.OpenOneToolInventoryC2SPacket;
+import net.tenth.one_tool.network.ToggleConsumeC2SPacket;
 import net.tenth.one_tool.network.TogglePickupC2SPacket;
 import net.tenth.one_tool.screen.ModScreenHandlers;
 import net.tenth.one_tool.screen.custom.OneToolScreen;
@@ -26,8 +28,18 @@ public class OneToolClient implements ClientModInitializer {
             if (!(stack.getItem() instanceof OneToolItem)) return;
 
             if (type.isAdvanced()) {
-                textConsumer.add(1, Text.translatable("item.one_tool.advanced_tooltip1").formatted(Formatting.GRAY));
+                textConsumer.add(1,
+                        Text.translatable("item.one_tool.advanced_tooltip3",
+                                ModKeybinds.TOOL_INV.getBoundKeyLocalizedText().copy().formatted(Formatting.AQUA),
+                                ModKeybinds.TOOL_PICKUP.getBoundKeyLocalizedText().copy().formatted(Formatting.AQUA),
+                                ModKeybinds.TOOL_CONSUME.getBoundKeyLocalizedText().copy().formatted(Formatting.AQUA)
+                        ).formatted(Formatting.GRAY));
                 textConsumer.add(1, Text.translatable("item.one_tool.advanced_tooltip2").formatted(Formatting.GRAY));
+
+                textConsumer.add(1, Text.empty());
+
+                textConsumer.add(1, Text.translatable("item.one_tool.advanced_tooltip1").formatted(Formatting.GRAY));
+
             } else {
                 textConsumer.add(1, Text.translatable("item.one_tool.more_info").formatted(Formatting.GRAY).formatted(Formatting.ITALIC));
             }
@@ -38,6 +50,11 @@ public class OneToolClient implements ClientModInitializer {
 
             textConsumer.add(1, Text.translatable("one_tool.tier.tooltip")
                     .append(Text.translatable("one_tool.tier_value.tooltip", tier.asRoman()).formatted(Formatting.AQUA)));
+
+            int hunger = stack.getOrDefault(ModDataComponentTypes.HUNGER, 0);
+
+            textConsumer.add(1, Text.translatable("item.one_tool.hunger.tooltip")
+                    .append(Text.translatable("one_tool.tier_value.tooltip", hunger).formatted(Formatting.AQUA)));
 
             int xp = GetToolDataHelper.getXP(stack);
             int requiredXp = tier.asInt() * maxEnergy;
@@ -79,6 +96,9 @@ public class OneToolClient implements ClientModInitializer {
             }
             while (ModKeybinds.TOOL_INV.wasPressed()) {
                 ClientPlayNetworking.send(new OpenOneToolInventoryC2SPacket());
+            }
+            while (ModKeybinds.TOOL_CONSUME.wasPressed()) {
+                ClientPlayNetworking.send(new ToggleConsumeC2SPacket());
             }
         });
     }

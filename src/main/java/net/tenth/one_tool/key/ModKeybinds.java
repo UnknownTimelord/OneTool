@@ -10,6 +10,7 @@ import org.lwjgl.glfw.GLFW;
 public class ModKeybinds {
     public static KeyBinding TOOL_PICKUP;
     public static KeyBinding TOOL_INV;
+    public static KeyBinding TOOL_CONSUME;
     public static KeyBinding.Category TOOL_CATEGORY =
             KeyBinding.Category.create(Identifier.of(OneTool.MOD_ID, "general"));
 
@@ -27,6 +28,14 @@ public class ModKeybinds {
                         "key.one_tool.open_inventory",
                         InputUtil.Type.KEYSYM,
                         GLFW.GLFW_KEY_B,
+                        TOOL_CATEGORY
+                )
+        );
+        TOOL_CONSUME = KeyBindingHelper.registerKeyBinding(
+                new KeyBinding(
+                        "key.one_tool.toggle_consume",
+                        InputUtil.Type.KEYSYM,
+                        GLFW.GLFW_KEY_Y,
                         TOOL_CATEGORY
                 )
         );

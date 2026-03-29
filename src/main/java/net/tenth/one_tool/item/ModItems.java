@@ -1,7 +1,6 @@
 package net.tenth.one_tool.item;
 
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.component.type.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.ToolMaterial;
@@ -54,7 +53,6 @@ public class ModItems {
 
     public static final Item ONE_TOOL = registerItem("one_tool", OneToolItem::new, new Item.Settings()
             .enchantable(1)
-            .food(new FoodComponent(1, 0, true))
             .tool(ToolMaterial.IRON, ModBlockTagProvider.BREAKS_ALL,
                     Constants.BASE_ATK_DAMAGE, Constants.BASE_ATK_SPEED, Constants.DISABLE_BLOCK_FOR_SEC)
             .customDamage((itemStack, i, entity, equipmentSlot, runnable) -> 0)
